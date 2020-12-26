@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'dart:ui';
 
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'core/themes.dart';
 import 'main.dart';
 
 class UnitConvertHome {
@@ -101,6 +99,20 @@ class UnitConvertHome {
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Pressure()));
+              },
+            )
+        ),
+        Hero(
+            tag: 'data',
+            child: getCardTemplate(
+              context,
+              'data',
+              icon: FaIcon(FontAwesomeIcons.database,
+                  color: Colors.black),
+              color: Colors.teal[400],
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Data()));
               },
             )
         ),
@@ -1201,6 +1213,132 @@ class _PressureState extends State<Pressure> {
 
 /// Page 9
 /// Data
+class Data extends StatefulWidget {
+  @override
+  _DataState createState() => _DataState();
+}
+
+class _DataState extends State<Data> {
+  var _bitController = TextEditingController();
+  var _kilobitController = TextEditingController();
+  var _megabitController = TextEditingController();
+  var _gigabitController = TextEditingController();
+  var _terrabitController = TextEditingController();
+  var _petabitController = TextEditingController();
+  var _byteController = TextEditingController();
+  var _kilobyteController = TextEditingController();
+  var _megabyteController = TextEditingController();
+  var _gigabyteController = TextEditingController();
+  var _terrabyteController = TextEditingController();
+  var _petabyteController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(L.string('data')),
+        elevation: 0,
+      ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: appliedTheme.primaryColorLight,
+        child: Hero(
+          tag: 'data',
+          child: Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              //decoration: BoxDecoration(
+              color: appliedTheme.canvasColor,
+              //borderRadius: BorderRadius.circular(16)
+              margin: EdgeInsets.all(12),
+              child: Builder(
+                builder: (BuildContext context) => ListView(
+                  children: [
+                    getTextField(0, context, L.string('bit'), 'bit', -1000000, _bitController),
+                    getTextField(1, context, L.string('kilobit'), 'Kbit', -1000, _kilobitController),
+                    getTextField(2, context, L.string('megabit'), 'Mbit', 1, _megabitController),
+                    getTextField(3, context, L.string('gigabit'), 'Gbit', 1000, _gigabitController),
+                    getTextField(4, context, L.string('terrabit'), 'Tbit', 1000000, _terrabitController),
+                    getTextField(5, context, L.string('petabit'), 'Pbit', 1000000000, _petabitController),
+                    getTextField(6, context, L.string('byte'), 'b', -125000, _byteController),
+                    getTextField(7, context, L.string('kilobyte'), 'Kb', -125, _kilobyteController),
+                    getTextField(8, context, L.string('megabyte'), 'Mb', 8, _megabyteController),
+                    getTextField(9, context, L.string('gigabyte'), 'Gb', 8000, _gigabyteController),
+                    getTextField(10, context, L.string('terrabyte'), 'Tb', 8000000, _terrabyteController),
+                    getTextField(11, context, L.string('petabyte'), 'Pb', 8000000000, _petabyteController)
+
+                  ],
+                ),
+              )),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget getTextField(int id, BuildContext context, String locName,
+      String shortName, double factor, TextEditingController controller,
+      {int requirement = -1}) {
+    return Container(
+      constraints: BoxConstraints(maxHeight: 56),
+      margin: EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 5,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: locName,
+                  labelStyle: TextStyle(fontSize: 12),
+                  icon: FaIcon(FontAwesomeIcons.weightHanging)),
+              controller: controller,
+              onChanged: (value) => updateTextField(id, locName, value, factor),
+              onTap: () => controller.selection = TextSelection(
+                  baseOffset: 0, extentOffset: controller.text.length),
+            ),
+          ),
+          Flexible(flex: 1, child: Text(shortName))
+        ],
+      ),
+    );
+  }
+
+  @override
+  void updateTextField(int id, String name, String value, double factor) {
+    double number;
+    factor > 0
+        ? number = double.parse(value) * factor
+        : number = double.parse(value) / (factor * -1);
+    if (value == ' ' || value == null) number = 0.0;
+
+    setState(() {
+      id == 0 ? null : _bitController.text = getTextString(number / 1000000);
+      id == 1 ? null : _kilobitController.text = getTextString(number / 1000);
+      id == 2 ? null : _megabitController.text = getTextString(number * 1);
+      id == 3 ? null : _gigabitController.text = getTextString(number * 1000);
+      id == 4 ? null : _terrabitController.text = getTextString(number * 1000000);
+      id == 5 ? null : _petabitController.text = getTextString(number * 1000000000);
+      id == 6 ? null : _byteController.text = getTextString(number * 125000 );
+      id == 7 ? null : _kilobyteController.text = getTextString(number * 125);
+      id == 8 ? null : _megabyteController.text = getTextString(number / 8);
+      id == 9 ? null : _gigabyteController.text = getTextString(number / 8000);
+      id == 10 ? null : _terrabyteController.text = getTextString(number / 8000000);
+      id == 11 ? null : _petabyteController.text = getTextString(number / 8000000000);
+    });
+  }
+
+  String getTextString(double value, {int limit = 6}) {
+    double endVal = Utils.dp((value), limit);
+
+    if (endVal >= 9223372036854.775) return L.string('E:highValue');
+    return endVal.toString();
+  }
+}
+
 
 /// Page 10
 /// Forces
