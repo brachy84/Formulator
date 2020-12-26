@@ -1,0 +1,7 @@
+1.1.0
+- Added tutorial to the Create Formula Page
+- Fixed a few issues on the Create Formula Page
+- A bug was fixed where some screens only showed a grey Box
+- Removed the empty Language Settings box in settings menu temporarily
+- Redesigned the formula screens
+- Formulas can now be calculated with specific units

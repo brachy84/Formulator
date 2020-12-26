@@ -1,0 +1,283 @@
+<resources>
+    <!-- <string name=""> </string> -->
+    <string name="app_name">Formelsammlung</string>
+    <string name="title">Titel</string>
+    <string name="subtitle">Untertitel</string>
+    <string name="Lorem ">'Lorem ipsum</string>
+    <string name="changeTo">Umstellen nach</string>
+    <string name="value">Wert</string>
+    <string name="calc">Berechnen</string>
+    <string name="hasMultiple">Diese Formel beinhalted eine Variable mehr als ein mal und kann nicht korrekt umgestellt werden!</string>
+    <string name="choose_color">Wähle eine Farbe</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichen</string>
+    <string name="preview">Vorschau</string>
+    <string name="verify">Formel überprüfen</string>
+    <string name="errorMsg">Fehlernachricht</string>
+    <string name="divide">Teilen</string>
+    <string name="root">Wurzeln</string>
+    <string name="notValid">Bitte drücke erst auf \'Formel überprüfen\' bevor du speicherst.</string>
+    <string name="emptyName">Der Name darf nicht leer sein!</string>
+    <string name="formatRulesTitle">Formattierungsregeln</string>
+    <string name="formatRules">1. Die Formel muss genau ein '=' enthalten.
+2. Alle Klammertypen müssen die gleiche Anzahl von Öffnern und Schließern haben (darf 0 sein).
+3. Benutze '^2' anstelle von '²'.
+4. Benutze den 'Teilen' Button anstelle von '/' oder '÷'.
+5. Der Teiler enthält zwei Klammersets. In den ersten gehört was über den Bruchstrich soll. In den zweiten kommt was drunter soll.
+6. Wenn du Kubikwurzel benutzen willst, mach es so: '^3√{ }'
+7. Leerzeichen sind egal.'</string>
+    <string name="gotit">OK</string>
+    <string name="bsp">Beispiele:</string>
+    <string name="converter">Konvertierer</string>
+    <string name="formulas">Formeln</string>
+    <string name="mathSubtitle">Geometrie, Pythagoras, Trigonometrie, etc.</string>
+    <string name="physicSubtitle">Bewegung, Kräfte, etc.</string>
+    <string name="industSubtitle">etc.</string>
+    <string name="customSubtitle">Erstellen deine eigenen Formeln</string>
+    <string name="myFormulas">Meine Formeln</string>
+    <string name="changelog">Änderungsprotokoll</string>
+
+    <!-- Create Formula Page -->
+    <string name="nameInfoTitle">Info zun Name</string>
+    <string name="nameInfo">Der Name sollte einzigartig sein. Falls mehrere Formeln den gleichen Namen haben werden sie zusammen gruppiert.</string>
+    <string name="titleInfoTitle">Info zum Titel</string>
+    <string name="titleInfo">Der Titel ist nützlich wenn mehrere Formeln den gleichen Namen teilen.</string>
+    <string name="createFormula">Formel erstellen</string>
+    <string name="tutorialDialogTitle">Tutorial</string>
+    <string name="tutorialDialog">Sieht aus als wärst du das erste Mal hier. Ich helfe dir deine erste Formel zu erstellen.
+Zuerst tippe auf das erste Textfeld 'Name'.'</string>
+    <string name="tutorialName">Gut, jetzt gib irgendeinen Namen ein. Für mehr information zum Name, klicke auf das 'i' neben dem Textfeld.
+
+Nachdem du einen Namen eingegeben hast klicke uf das zweite Textfeld 'Titel'.'</string>
+    <string name="tutorialTitle">Dieses Feld kannst du leer lassen. Es ist nur sinnvoll einen Titel zu haben wenn mehrere Formeln den gleichen Namen haben.
+
+Klicke danach auf das dritte Textfeld 'Formel'.'</string>
+    <string name="tutorialFormula">Um zu sehen wie die Formel auszusehen hat klicke auf das blaue 'i' neben dem Textfeld. Dort findest du Regeln und Beispiele.
+
+Unter diesem Textfeld sind ein paar buttons. Sie sollen das eingeben der Formel vereinfachen. Probier sie einfach mal aus.'
+
+Überall wo Klammern sind gehört ein Wert rein. Dies kann eine Variable oder mehrere Variablen mit Operatoren sein.'
+
+Wenn du glaubst du hast deine Formel richtig eingegeben (Vergleiche sie am besten mit den Beispielen), dann klicke auf 'Formel überprüfen'.'</string>
+    <string name="tutorialVerify">Sehr gut. Wenn das Feld neben diesem Button grün wird hast du alles richtig gemacht, wird es rot solltest lesen was dort steht und den entsprechenden Fehler korrigieren.
+Sobald das Feld grün wird kannst du in der Vorschau sehen wie sie angezeigt wird. Drücke auf Speichern. Fertig.'
+
+Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf das 'i' drückst.'</string>
+
+    <!-- Settings -->
+    <string name="settings">Einstellungen</string>
+    <string name="accent">Akzentfarbe</string>
+    <string name="primary">Hauptfarbe</string>
+    <string name="colorSettings">Farb Einstellungen</string>
+    <string name="themeSettings">Thema Einstellungen</string>
+    <string name="bright">Hell</string>
+    <string name="dark">Dunkel</string>
+    <string name="warm">Warm</string>
+    <string name="cold">Kalt</string>
+    <string name="languageSettings">Sprach Einstellungen</string>
+    <string name="useDefault">Standart benutzen</string>
+
+    <!-- Formulas -->
+    <string name="math">Mathematik</string>
+    <string name="industrial">Industrietechnik</string>
+    <string name="physic">Physik</string>
+
+    <string name="formulasMath">Formeln - Mathe</string>
+    <string name="formulasPhysic">Formeln - Physik</string>
+    <string name="formulasIndustrial">Formeln - Industrietechnik</string>
+
+
+    <!-- Math Formulas Categories -->
+    <string name="surfaceBody">Flächen</string>
+    <string name="body">Körper</string>
+    <string name="pythagoras">Pythagoras</string>
+    <string name="triangles">Pythagoras &amp; Trigonometrie</string>
+    <string name="trigonometry">Trigonometrie</string>
+    <string name="altitude_theorem">Höhensatz</string>
+
+    <!-- Physic Formulas -->
+    <string name="movement">Bewegung</string>
+    <string name="constMovement">Konstante Bewegung</string>
+    <string name="accel_delayMovement">Beschleunigte &amp; verzögerte Bewegung</string>
+    <string name="linearMovement">Geradlinige Bewegung</string>
+    <string name="circularMotion">Kreisförmige Bewegung</string>
+    <string name="end/beginnSpeed">End- / Anfangsgeschwindigkeit</string>
+    <string name="accel_delayDistance">Beschleunigungs-/Verzögerungsweg</string>
+    <string name="work">Arbeit</string>
+    <string name="forces">Kräfte</string>
+    <string name="acceleration_force">Beschleunigungskraft</string>
+    <string name="centrifugal">Zentrifugalkraft</string>
+    <string name="centripetal">Zentripetalkraft</string>
+
+    <!-- Physic values -->
+    <string name="speed">Geschwindigkeit</string>
+    <string name="time">Zeit</string>
+    <string name="distance">Weg</string>
+    <string name="circumferentialSpeed">Umfangsgeschwindigkeit</string>
+    <string name="rotationSpeed">Drehzahl</string>
+    <string name="angularVelocity">Winkelgeschwindigkeit</string>
+    <string name="acceleration">Beschleunigung</string>
+    <string name="weight_force">Gewichtskraft</string>
+    <string name="mass">Gewicht</string>
+    <string name="torque">Drehmoment</string>
+
+    <!-- Errors -->
+    <string name="E:highValue">Wert ist zu groß!</string>
+    <string name="E:valid0">Error: Die Formel muss genau ein '=' enthalten</string>
+    <string name="E:valid1">Error: Die Formel darf NICHT mit diesen Zeichen anfangen oder beginnen: '+', '-', '*', '%' oder '='</string>
+    <string name="E:valid2">Error: Die Anzahl der offenen und geschlossenen, geschweiften Klammern sollte gleich sein</string>
+    <string name="E:valid3">Error: Die Anzahl der offenen und geschlossenen Klammern sollte gleich sein</string>
+    <string name="E:valid4">Error: Die Anzahl der offenen und geschlossenen, eckigen Klammern sollte gleich sein</string>
+    <string name="W:valid0">Warnung: Die Formel enthält eine Variable mehr als ein mal. Beim Umstellen werden Fehler auftreten.</string>
+
+    <string name="unitConvert">Einheiten Umrechner</string>
+    <string name="formulaCategory">Formel Kategorien</string>
+    <string name="formulas">Formeln</string>
+
+    <string name="lengthSurfaceVolume">Längen, Flächen &amp; Volumen</string>
+    <string name="lengths">Längen</string>
+    <string name="surface">Flächen</string>
+    <string name="volume">Volumen</string>
+    <!-- Längen -->
+    <string name="kiloM">Kilometer</string>
+    <string name="centiM">Zentimeter</string>
+    <string name="meter">Meter</string>
+    <string name="milliM">Millimeter</string>
+    <string name="mile">Meile</string>
+    <string name="foot">Fuß</string>
+    <string name="inch">Zoll</string>
+    <!-- Flächen -->
+    <string name="SqMeter">Quadratmeter</string>
+    <string name="SqKiloM">Quadratkilometer</string>
+    <string name="SqCentiM">Quadratzentimeter</string>
+    <string name="SqMilliM">Quadratmilliemeter</string>
+    <string name="SqMile">Quadratmeile</string>
+    <string name="SqFoot">Quadratfuß</string>
+    <string name="SqInch">Quadratzoll</string>
+    <string name="hectar">Hektar</string>
+    <!-- Volumen -->
+    <string name="CuMeter">Kubikmeter</string>
+    <string name="CuKiloM">Kubikkilometer</string>
+    <string name="CuCentiM">Kubikzentimeter</string>
+    <string name="CuMilliM">Kubikmilliemeter</string>
+    <string name="CuMile">Kubikmeile</string>
+    <string name="CuFoot">Kubikfuß</string>
+    <string name="CuInch">Kubikzoll</string>
+    <string name="liter">Liter</string>
+
+    <string name="speed">Geschwindigkeiten</string>
+    <string name="kmh">Kilometer / Stunde</string>
+    <string name="ms">Meter / Sekunde</string>
+    <string name="mileh">Meile / Stunde</string>
+    <string name="foots">Fuß / Sekunde</string>
+
+    <string name="weight">Gewicht</string>
+    <string name="tonne">Tonne</string>
+    <string name="kiloG">Kilogramm</string>
+    <string name="gramm">Gramm</string>
+    <string name="milliG">Milligramm</string>
+    <string name="pound">Pfund</string>
+    <string name="ounce">Unze</string>
+
+    <string name="temperatur">Temperatur</string>
+    <string name="celsius">Grad Celsius</string>
+    <string name="fahrenheit">Grad Fahrenheit</string>
+    <string name="kelvin">Grad Kelvin</string>
+
+    <string name="time">Zeit</string>
+    <string name="year">Jahr</string>
+    <string name="month">Monat</string>
+    <string name="week">Woche</string>
+    <string name="day">Tag</string>
+    <string name="hour">Stunde</string>
+    <string name="minute">Minute</string>
+    <string name="second">Sekunde</string>
+
+    <string name="angle">Winkel</string>
+    <string name="degree">Grad</string>
+    <string name="radiant">Radiant</string>
+
+    <string name="pressure">Druck</string>
+    <string name="bar">bar</string>
+    <string name="pascal">Pascal</string>
+    <string name="n/mm²">Newton / Quadratmillimeter</string>
+    <string name="n/cm²">Newton / Quadratcentimeter</string>
+    <string name="n/m²">Newton / Quadratmeter</string>
+
+    <string name="data">Daten</string>
+    <string name="bit">Bit</string>
+    <string name="kilobit">Kilonit</string>
+    <string name="megabit">Megabit</string>
+    <string name="gigabit">Gigabit</string>
+    <string name="terrabit">Terrabit</string>
+    <string name="petabit">Petabit</string>
+    <string name="byte">Byte</string>
+    <string name="kilobyte">Kilonyte</string>
+    <string name="megabyte">Megabyte</string>
+    <string name="gigabyte">Gigabyte</string>
+    <string name="terrabyte">Terrabyte</string>
+    <string name="petabyte">Petabyte</string>
+
+    <!-- Surfaces -->
+    <string name="square">Quadrat</string>
+    <string name="rectangle">Rechteck</string>
+    <string name="triangle">Dreieck</string>
+    <string name="circle">Kreis</string>
+    <string name="parallelogram">Parallelogramm</string>
+    <string name="trapez">Trapez</string>
+    <string name="rhombus">Raute</string>
+
+    <!-- Bodys -->
+    <string name="cube">Würfel</string>
+    <string name="cuboid">Quader</string>
+    <string name="pyramid">Pyramide</string>
+    <string name="pyramid_truncated">Pyramidenstumpf</string>
+    <!-- prism' : 'Prisma', -->
+    <string name="ball">Kugel</string>
+    <string name="cone">Kegel</string>
+    <string name="cone_truncated">Kegelstumpf</string>
+    <string name="cylinder">Zylinder</string>
+
+    <!-- Variable Values -->
+    <string name="area">Oberfläche</string>
+    <string name="side_length">Seitenlänge</string>
+    <string name="side_width">Seitenbreite</string>
+    <string name="length">Länge</string>
+    <string name="width">Breite</string>
+    <string name="side_length_basearea">Seitenlänge der Grundfläche</string>
+    <string name="side_width_basearea">Seitenbreite der Grundfläche</string>
+    <string name="height">Höhe</string>
+    <string name="baseline">Länge der Grundlinie</string>
+    <string name="diameter">Durchmesser Ø</string>
+    <string name="volume2">Volumen</string>
+    <string name="basearea">Grundfläche</string>
+    <string name="deckarea">Deckfläche</string>
+    <string name="diameter_small">kleiner Durchmesser</string>
+    <string name="diameter_big">großer Durchmesser</string>
+    <string name="perimeter">Umfang</string>
+    <string name="edgeLength">Kantenlänge</string>
+    <string name="mantleSurface">Mantelfläche</string>
+    <string name="mantleHeight">Mantelhöhe</string>
+    <string name="cathete">Kathete</string>
+    <string name="oppositeC">Gegenkathete</string>
+    <string name="adjacentC">Ankathete</string>
+    <string name="hypotenuse">Hypotenuse</string>
+    <string name="sines">Sinus</string>
+    <string name="cosines">Cosinus</string>
+    <string name="tangents">Tangens</string>
+    <string name="section_of_base">abschnitt der Grundseite</string>
+
+    <!-- Units -->
+    <string name="rpm">U/min</string>
+    <string name="rps">U/s</string>
+
+    <!-- Changelog -->
+    <string name="1.0.0-1">Erste veröffentlichung</string>
+    <string name="1.1.0-1">Es wurde ein Tutorial zum erstellen eigener Formeln hinzugefügt</string>
+    <string name="1.1.0-2">Es wurden Bugs beim erstellen von Formeln gefixt</string>
+    <string name="1.1.0-3">Es wurde ein Bug gefixt bei dem eine graue Box gezeigt wurde</string>
+    <string name="1.1.0-4">Die (leeren) Spracheinstellungen wurden vorübergehend entfernt</string>
+    <string name="1.1.0-5">Die Formel Seiten wurden überarbeitet</string>
+    <string name="1.1.0-6">Die Formeln können jetzt in bestimmten Einheiten berechnet werden</string>
+
+</resources>
