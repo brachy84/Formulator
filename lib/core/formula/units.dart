@@ -23,6 +23,8 @@ class Units {
 
   static Unit2 force = Unit2('N', {'N' : 1, 'kN' : 0.001});
 
+  static Unit2 data = Unit2('mbit', {'bit' : 1000000, 'kbit' : 1000, 'mbit' : 1, 'gbit' : 0.001, 'tbit' : 0.000001, 'pbit' : 0.000000001, 'b' : 125000, 'Kb' : 125, 'Mb' : 0.125, 'Gb' : 0.000125, 'Tb' : 0.000000125, 'Pb' : 0.000000000125});
+
   static Unit getUnitFromString(String unitShort) {
     Unit result;
     units.forEach((unit) {

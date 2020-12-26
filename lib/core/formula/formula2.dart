@@ -56,8 +56,7 @@ class Formula {
   /// Fills sidedValues and parses it
   void parseRaw({List<String> sides, bool determineSides = false, bool switchTrigonometric = true}) {
     _sidedValues.clear();
-    if (sides == null)
-      sides = _sides;
+    sides ??= _sides;
 
     _parsingValues = List()..length = 0;
     String lastChar = '§§§';
@@ -191,6 +190,10 @@ class Formula {
 
       switchSideOfBrackets();
 
+      if(!isInBrace(result) && _sidedValues[1].contains('(')) {
+        switchSideOf(getRangeAsString(_sidedValues[1].indexOf('('), findClosingIndex(_sidedValues[1].indexOf('('), type: '()')));
+      }
+
       if (isInRoot(result)) {
         if (_sidedValues[1].first == '√{' && _sidedValues[1].last == '}') {
           square();
@@ -290,10 +293,24 @@ class Formula {
       sidedValuesClone.forEach((value) {
         logcat('  still remaining: $_sidedValues');
         logcat('  current value: $value');
-        if (!isOperator(value) && value != result) {
+        if (!isOperator(value) && value != result && !isInBrace(value)) {
           switchSideOf(value);
         }
       });
+
+      if(isInBrace(result)) {
+        logcat('  clearing Braces');
+        _sidedValues[1].remove('(');
+        _sidedValues[1].remove(')');
+        logcat('  removed () from sidedValues: ${sidedValues}');
+        applyToFormula();
+        sidedValuesClone = List.from(_sidedValues[1]);
+        sidedValuesClone.forEach((value) {
+          if (!isOperator(value) && value != result) {
+            switchSideOf(value);
+          }
+        });
+      }
       applyToFormula(determineSides: true);
 
       if(_values.first.contains('^')) {
@@ -979,7 +996,20 @@ class Formula {
           adjustIndex--;
         });
       }
+  }
+
+  bool isInBrace(String value) {
+    if (!_values.contains('(')) return false;
+    int i = _values.indexOf('(') + 1;
+    int count = 1;
+    while (true) {
+      if (_values[i] == value) return true;
+      if (_values[i].contains('(')) count++;
+      if (_values[i].contains(')')) count--;
+      if (count == 0) return false;
+      i++;
     }
+  }
 
   bool isInRoot(String value) {
     if (!_values.contains('√{')) return false;
