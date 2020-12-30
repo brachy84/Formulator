@@ -110,6 +110,8 @@ class ThemeNotifier with ChangeNotifier {
   ThemeData getTheme() => _themeData;
 
   setTheme(ThemeData themeData, {Color accent, Color primary}) async {
+    accent ??= themeData.accentColor;
+    primary ??= themeData.primaryColor;
     _themeData = Themes.setTheme(themeData, accent: accent, primary: primary);
     logcat(_themeData);
     notifyListeners();

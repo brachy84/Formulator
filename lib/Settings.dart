@@ -90,11 +90,12 @@ class _SettingsHome extends State<SettingsHome> {
   void onThemeChange(int value, ThemeNotifier themeNotifier) {
     setState(() {
       Settings.selectValue = value;
-      Settings.currentAccent = Settings.colorIndexAccent == 0 ? Themes.themes[value].accentColor : Settings.currentAccent;
-      Settings.currentPrimary = Settings.colorIndexPrimary == 0 ? Themes.themes[value].primaryColor : Settings.currentPrimary;
-      Settings.accentList[0] = Settings.currentAccent;
-      Settings.primaryList[0] = Settings.currentPrimary;
-      themeNotifier.setTheme(Themes.themes[value], accent: Settings.currentAccent, primary: Settings.currentPrimary);
+      //Settings.currentAccent = Settings.colorIndexAccent == 0 ? Themes.themes[value].accentColor : Settings.currentAccent;
+      //Settings.currentPrimary = Settings.colorIndexPrimary == 0 ? Themes.themes[value].primaryColor : Settings.currentPrimary;
+      //Settings.accentList[0] = Settings.currentAccent;
+      //Settings.primaryList[0] = Settings.currentPrimary;
+      //themeNotifier.setTheme(Themes.themes[value], accent: Settings.currentAccent, primary: Settings.currentPrimary);
+      themeNotifier.setTheme(Themes.themes[value]);
     });
   }
 
@@ -110,7 +111,7 @@ class _SettingsHome extends State<SettingsHome> {
         margin: EdgeInsets.all(8),
         child: ListView(
           children: [
-            getSettingCard(header: L.string('colorSettings'),
+            /*getSettingCard(header: L.string('colorSettings'),
                 children: [
                   ListTile(
                     leading: ColorPicker(
@@ -167,7 +168,7 @@ class _SettingsHome extends State<SettingsHome> {
                     ),
                   ),
                 ]
-            ),
+            ),*/
             getSettingCard(header: L.string('themeSettings'),
             children: [
               RadioListTile(
