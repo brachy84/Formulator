@@ -16,7 +16,7 @@
     <string name="errorMsg">Fehlernachricht</string>
     <string name="divide">Teilen</string>
     <string name="root">Wurzeln</string>
-    <string name="notValid">Bitte drücke erst auf \'Formel überprüfen\' bevor du speicherst.</string>
+    <string name="notValid">.</string>
     <string name="emptyName">Der Name darf nicht leer sein!</string>
     <string name="formatRulesTitle">Formattierungsregeln</string>
     <string name="formatRules">1. Die Formel muss genau ein '=' enthalten.
@@ -179,7 +179,7 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
     <string name="pound">Pfund</string>
     <string name="ounce">Unze</string>
 
-    <string name="temperatur">Temperatur</string>
+    <string name="temperature">Temperatur</string>
     <string name="celsius">Grad Celsius</string>
     <string name="fahrenheit">Grad Fahrenheit</string>
     <string name="kelvin">Grad Kelvin</string>
@@ -195,6 +195,7 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
 
     <string name="angle">Winkel</string>
     <string name="degree">Grad</string>
+    <string name="gon">Gon</string>
     <string name="radiant">Radiant</string>
 
     <string name="pressure">Druck</string>

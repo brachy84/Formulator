@@ -119,7 +119,7 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
     <string name="torque">torque</string>
 
     <!-- Errors -->
-    <string name="E:highValue">: 'Value is to high!</string>
+    <string name="E:highValue">Value is to high!</string>
     <string name="E:valid0">Error: The Formula must contain exactly one '='</string>
     <string name="E:valid1">Error: The Formula should not end or start with '+', '-', '*', '%' or '='</string>
     <string name="E:valid2">Error: The amount of opening and closing curly braces should match</string>
@@ -179,7 +179,7 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
     <string name="pound">pound</string>
     <string name="ounce">ounce</string>
 
-    <string name="temperatur">Temperature</string>
+    <string name="temperature">Temperature</string>
     <string name="celsius">degree Celsius</string>
     <string name="fahrenheit">degree Fahrenheit</string>
     <string name="kelvin">degree Kelvin</string>
@@ -195,6 +195,7 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
 
     <string name="angle">Angle</string>
     <string name="degree">degree</string>
+    <string name="gon">Gon</string>
     <string name="radiant">radiant</string>
 
     <string name="pressure">Pressure</string>
