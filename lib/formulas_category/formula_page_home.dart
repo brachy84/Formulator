@@ -1,4 +1,5 @@
 
+import 'package:all_the_formulars/constants.dart';
 import 'package:all_the_formulars/core/formula/formula2.dart';
 import 'package:all_the_formulars/core/system/storage.dart';
 import 'package:all_the_formulars/core/utils.dart';
@@ -298,7 +299,7 @@ class CreateFormula extends StatefulWidget {
   CreateFormula({this.item, @required this.isEdit});
 
   @override
-  _CreateFormulaState createState() => _CreateFormulaState(item: item, isEdit: isEdit);
+  _CreateFormulaState createState() => _CreateFormulaState();
 }
 
 class _CreateFormulaState extends State<CreateFormula> {
@@ -308,17 +309,17 @@ class _CreateFormulaState extends State<CreateFormula> {
   bool isEdit;
   bool isInitialized = false;
   Item item;
-  _CreateFormulaState({this.item, this.isEdit});
+  _CreateFormulaState();
 
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerTitle = TextEditingController();
-  final TextEditingController _controllerFormula = TextEditingController();
+  final TextEditingController _controllerFormula = TextEditingController(text: 'a=b+c');
   final FocusNode _focusFormula = FocusNode();
 
   String errorMsg = '';
   Color errorColor = Colors.grey.withOpacity(0.5);
   double saveButtonOpacity = 0.2;
-  Formula formula = Formula('a=b');
+  Formula formula = Formula('a=b+c');
 
   void adjustIds(int removedId) {
     Item.itemData.forEach((item) {
@@ -340,6 +341,8 @@ class _CreateFormulaState extends State<CreateFormula> {
 
   @override
   void initState() {
+    isEdit = widget.isEdit;
+    item = widget.item;
     super.initState();
   }
 
@@ -363,6 +366,8 @@ class _CreateFormulaState extends State<CreateFormula> {
     }
 
     if(tutorialOrder == 0) checkFirstTime();
+
+    // TODO: replace with stepper
 
     return Scaffold(
         appBar: isEdit ? AppBar(
@@ -420,55 +425,74 @@ class _CreateFormulaState extends State<CreateFormula> {
           child: Builder( builder: (context) =>
             ListView(
               children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.info_outline),
-                          onPressed: () => showTutorialDialog(context, L.string('nameInfoTitle'), L.string('nameInfo')),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 8),
+                        constraints: BoxConstraints(
+                          maxHeight: 40
                         ),
-                        labelText: 'Name',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)
-                        )
-                    ),
-                    controller: _controllerName,
-                    onTap: () {
-                      if(firstTime && tutorialOrder == 1) {
-                        showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialName'));
-                        tutorialOrder++;
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.info_outline),
-                          onPressed: () => showTitleInfoDialog(context),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.info_outline),
+                                onPressed: () => showTutorialDialog(context, L.string('nameInfoTitle'), L.string('nameInfo')),
+                              ),
+                              labelText: 'Name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)
+                              )
+                          ),
+                          controller: _controllerName,
+                          onTap: () {
+                            if(firstTime && tutorialOrder == 1) {
+                              showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialName'));
+                              tutorialOrder++;
+                            }
+                          },
                         ),
-                        labelText: 'Title',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)
-                        )
+                      ),
                     ),
-                    controller: _controllerTitle,
-                    onTap: () {
-                      if(firstTime && tutorialOrder == 2) {
-                        showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialTitle'));
-                        tutorialOrder++;
-                        if(_controllerName.text == '') {
-                          _controllerName.text = 'TutorialName';
-                        }
-                      }
-                    },
-                  ),
+                    Padding(padding: EdgeInsets.only(left: 8),),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 8),
+                        constraints: BoxConstraints(
+                            maxHeight: 40
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.info_outline),
+                                onPressed: () => showTitleInfoDialog(context),
+                              ),
+                              labelText: 'Title',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)
+                              )
+                          ),
+                          controller: _controllerTitle,
+                          onTap: () {
+                            if(firstTime && tutorialOrder == 2) {
+                              showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialTitle'));
+                              tutorialOrder++;
+                              if(_controllerName.text == '') {
+                                _controllerName.text = 'TutorialName';
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+
                 Container(
                   margin: EdgeInsets.only(bottom: 8),
+                  constraints: BoxConstraints(
+                    maxHeight: 50
+                  ),
                   child: TextField(
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
@@ -485,8 +509,10 @@ class _CreateFormulaState extends State<CreateFormula> {
                     focusNode: _focusFormula,
                     onChanged: (value) {
                       setState(() {
-                        saveButtonOpacity = 0.2;
+                        if(saveButtonOpacity != 0.2)
+                          saveButtonOpacity = 0.2;
                       });
+                      verify();
                     },
                     onTap: () {
                       if(firstTime && tutorialOrder == 3) {
@@ -504,7 +530,7 @@ class _CreateFormulaState extends State<CreateFormula> {
                 ),
                 Wrap(
                   alignment: WrapAlignment.spaceAround,
-                  spacing: 8,
+                  spacing: 2,
                   runSpacing: 0,
                   children: [
                     _getButton(':{}/{}', name: L.string('divide')),
@@ -519,7 +545,7 @@ class _CreateFormulaState extends State<CreateFormula> {
                   ],
                 ),
                 Divider(),
-                Text(L.string('errorMsg')),
+                //Text(L.string('errorMsg')),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -531,7 +557,7 @@ class _CreateFormulaState extends State<CreateFormula> {
                             margin: EdgeInsets.all(8),
                             child: Text(errorMsg, maxLines: 3, softWrap: true,),
                           constraints: BoxConstraints(
-                            minHeight: 40
+                            minHeight: 15
                           ),
                         ),
                         decoration: BoxDecoration(
@@ -540,43 +566,6 @@ class _CreateFormulaState extends State<CreateFormula> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 4, right: 4, bottom: 8),
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)
-                        ),
-                        color: Colors.green,
-                        child: Text(L.string('verify')),
-                        onPressed: () {
-                          if(firstTime && tutorialOrder == 4) {
-                            showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialVerify'));
-                            tutorialOrder++;
-                            if(_controllerFormula.text == '' || _controllerFormula.text == ' ') {
-                              _controllerFormula.text = 'F = m * c^2';
-                            }
-                          }
-                          Map<String, int> validCheck = isValid(_controllerFormula.text);
-                          setState(() {
-                            errorMsg = validCheck.keys.first;
-                            logcat('Valid state: ${validCheck.values.first}');
-                            if(validCheck.values.first == 2) {
-                              errorColor = Colors.green.withOpacity(0.5);
-                              saveButtonOpacity = 1.0;
-                              //_controllerFormula.value(TextEditingValue())
-                              formula = Formula(_controllerFormula.text);
-                            } else if(validCheck.values.first == 1) {
-                              errorColor = Colors.orange.withOpacity(0.5);
-                              saveButtonOpacity = 1.0;
-                              formula = Formula(_controllerFormula.text);
-                            } else {
-                              errorColor = Colors.red.withOpacity(0.5);
-                              saveButtonOpacity = 0.2;
-                            }
-                          });
-                        },
-                      ),
-                    )
                   ],
                 ),
                 Container(
@@ -678,10 +667,41 @@ class _CreateFormulaState extends State<CreateFormula> {
     );
   }
 
+  void verify() {
+    if(firstTime && tutorialOrder == 4) {
+      showTutorialDialog(context, L.string('tutorialDialogTitle'), L.string('tutorialVerify'));
+      tutorialOrder++;
+      if(_controllerFormula.text == '' || _controllerFormula.text == ' ') {
+        _controllerFormula.text = 'F = m * c^2';
+      }
+    }
+    Map<String, int> validCheck = isValid(_controllerFormula.text);
+    setState(() {
+      errorMsg = validCheck.keys.first;
+      formula = Formula(_controllerFormula.text);
+      logcat('Valid state: ${validCheck.values.first}');
+      if(validCheck.values.first == 2) {
+        errorColor = Colors.green.withOpacity(0.5);
+        saveButtonOpacity = 1.0;
+        //_controllerFormula.value(TextEditingValue())
+      } else if(validCheck.values.first == 1) {
+        errorColor = Colors.orange.withOpacity(0.5);
+        saveButtonOpacity = 1.0;
+      } else {
+        errorColor = Colors.red.withOpacity(0.5);
+        saveButtonOpacity = 0.2;
+      }
+    });
+  }
+
   Widget _getButton(String output, {String name, int posFromStart = 2, int posFromEnd = 1}) {
     name ??= output;
     return Container(
-      //constraints: BoxConstraints(maxWidth: 96),
+      constraints: BoxConstraints(
+        maxWidth: screenSize.width / 4.5,
+        minWidth: screenSize.width / 4.5,
+      ),
+      //margin: EdgeInsets.only(left: 2, right: 2),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
@@ -710,7 +730,11 @@ class _CreateFormulaState extends State<CreateFormula> {
   Widget _getOperatorButton(String output, {String name}) {
     name ??= output;
     return Container(
-      constraints: BoxConstraints(maxWidth: 64),
+      //margin: EdgeInsets.only(left: 2, right: 2),
+      constraints: BoxConstraints(
+        maxWidth: screenSize.width / 6,
+        minWidth: screenSize.width / 6,
+      ),
       child: Tooltip(
         message: output,
         child: RaisedButton(
