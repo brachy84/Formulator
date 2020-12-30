@@ -473,39 +473,38 @@ class Formula {
     logcat('valueIndex: $valueIndex');
     logcat('values: $_values');
     logcat('value: ${value.split(' ')}');
+    List<String> values = value.contains(' ') ? value.split(' ') : [value];
 
     switch (nextOperator) {
       case '+':
-        subtract([value]);
+        subtract(values);
         break;
       case '-':
-        add([value], opIsNext: isNext);
+        add(values, opIsNext: isNext);
         break;
       case '*':
-        divide([value]);
+        divide(values);
         break;
       case ':{':
-        divide([value], areNumerators: true);
+        divide(values, areNumerators: true);
         break;
       case '}/{':
-        isNext ? divide([value], areNumerators: true) : multiply([value]);
+        isNext ? divide(values, areNumerators: true) : multiply(values);
         break;
     }
     lastAction = nextOperator;
   }
 
   int findClosingIndex(int start, {int side = 1, String type = '{}', bool findMidOperator = false, List<String> list}) {
-    if(list == null) list = _sidedValues[side];
-    //logcat('findClosing: start: $start of $list');
+    list ??= _sidedValues[side];
+    logcat('findClosing: start: $start of $list');
     int count = 1;
     if (!findMidOperator) {
       int i = start + 1;
       while (true) {
         //logcat('findClosing: list[i]: ${list[i]}');
-        if (list[i].contains(type[0]) &&
-            list[i] != '}/{') count++;
-        if (list[i].contains(type[1]) &&
-            list[i] != '}/{') count--;
+        if (list[i].contains(type[0]) && list[i] != '}/{') count++;
+        if (list[i].contains(type[1]) && list[i] != '}/{') count--;
         //logcat('findClosing: count: $count');
         if (count == 0) return i;
         i++;
@@ -690,8 +689,10 @@ class Formula {
         }
       });
       if (containsAll) {
-        scanForOperators(values: values.length == 1 ? values[0].split(' ') : values, i: i);
+        print('Side $i has all values');
+        scanForOperators(values: values.length == 1 ? values[0].split(' ') : values, i: i, start: _sidedValues[i].indexOf(values.first));
 
+        print('sidedValues: $_sidedValues');
         parsedSide = _sidedValues[i].join(' ');
         print('parsedSide: $parsedSide');
       } else {
@@ -713,6 +714,7 @@ class Formula {
       _parsedSides[i] = parsedSide.trim();
       i++;
     });
+    print('ParsedSides: $parsedSides');
     parseRaw(sides: parsedSides);
   }
 
@@ -729,7 +731,7 @@ class Formula {
       });
       if (containsAll) {
         //print('containsAll = true');
-        scanForOperators(values: values.length == 1 ? values[0].split(' ') : values, i: i);
+        scanForOperators(values: values.length == 1 ? values[0].split(' ') : values, i: i, start: _sidedValues[i].indexOf(values.first));
 
         parsedSide = _sidedValues[i].join(' ');
       } else {
@@ -921,12 +923,15 @@ class Formula {
   }
 
   void scanForOperators({List<String> values, int i, int start, int end}) {
-    if (start == null) start = _sidedValues[i].indexOf(values.first);
+    start ??= _sidedValues[i].indexOf(values.first);
     if (end == null) {
       if(values.first == '√{' || values.first == ':{') {
         end = findClosingIndex(start);
+      } else if(values.first == '(') {
+        end = findClosingIndex(start, type: '()');
       } else {
-        end = _sidedValues[i].indexOf(values.last);
+        //end = _sidedValues[i].length-1;
+        end = start;
       }
     }
 
