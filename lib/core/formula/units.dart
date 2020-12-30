@@ -1,4 +1,3 @@
-import 'package:all_the_formulars/core/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -17,7 +16,7 @@ class Units {
 
   static Mass mass = Mass('kg', {'t' : 0.001, 'kg' : 1, 'g' : 1000, 'mg' : 1000000, 'lt' : 0.000984207, 'st' : 0.00110231, 'lb' : 2.20462, 'oz' : 35.274});
 
-  static Unit2 angle = Unit2('°', {'°' : 1});
+  static Unit2 angle = Unit2('°', {'°' : 1,'gon' : 0.9, 'min' : 60, 's' : 3600});
 
   static Unit2 time = Unit2('min', {'ms' : 60000,'s' : 60, 'min' : 1, 'h' : -60, 'd' : -1440});
 
@@ -48,7 +47,8 @@ class Units {
     rotationalSpeed,
     mass,
     time,
-    force
+    force,
+    data
   ];
 }
 
