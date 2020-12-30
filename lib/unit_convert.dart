@@ -9,8 +9,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'main.dart';
 
 class UnitConvertHome {
-  static Widget getUnitConvertHome(BuildContext context) {
 
+  static Widget getHero(BuildContext context, SmartUnitConvertCard widget, {Color color, Color iconColor = Colors.black}) {
+    return Hero(
+        tag: widget.langName,
+        child: getCardTemplate(
+          context,
+          widget.langName,
+          icon: FaIcon(widget.icon,
+              color: iconColor),
+          color: color,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => widget));
+          },
+        )
+    );
+  }
+
+  static Widget getUnitConvertHome(BuildContext context) {
     return ListView(
       children: [
         Hero(
@@ -26,97 +43,137 @@ class UnitConvertHome {
                         builder: (context) => LengthSurfaceVolume()));
               },
             )),
-        Hero(
-            tag: 'speed',
-            child: getCardTemplate(
-              context,
-              'speed',
-              icon: FaIcon(FontAwesomeIcons.tachometerAlt, color: Colors.black),
-              color: Colors.lightGreen[400],
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Speed()));
-              },
-            )),
-        Hero(
-            tag: 'weight',
-            child: getCardTemplate(
-              context,
-              'weight',
-              icon: FaIcon(FontAwesomeIcons.weightHanging, color: Colors.black),
-              color: Colors.lightBlue[400],
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Weight()));
-              },
-            )),
-        Hero(
-            tag: 'temperatur',
-            child: getCardTemplate(
-              context,
-              'temperatur',
-              icon:
-                  FaIcon(FontAwesomeIcons.thermometerHalf, color: Colors.black),
-              color: Colors.yellow[400],
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Temperature()));
-              },
-            )),
-        Hero(
-            tag: 'time',
-            child: getCardTemplate(
-              context,
-              'time',
-              icon: FaIcon(FontAwesomeIcons.clock, color: Colors.black),
-              color: Colors.purple[300],
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Time()));
-              },
-            )),
-        Hero(
-            tag: 'angle',
-            child: getCardTemplate(
-              context,
-              'angle',
-              icon:
-                  FaIcon(FontAwesomeIcons.draftingCompass, color: Colors.black),
-              color: Colors.orange[400],
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Angle()));
-              },
-            )),
-        Hero(
-            tag: 'pressure',
-            child: getCardTemplate(
-              context,
-              'pressure',
-              icon: FaIcon(FontAwesomeIcons.compressArrowsAlt,
-                  color: Colors.black),
-              color: Colors.grey[400],
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Pressure()));
-              },
-            )
-        ),
-        Hero(
-            tag: 'data',
-            child: getCardTemplate(
-              context,
-              'data',
-              icon: FaIcon(FontAwesomeIcons.database,
-                  color: Colors.black),
-              color: Colors.teal[400],
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Data()));
-              },
-            )
-        ),
+        getHero(context, speed, color: Colors.lightGreen[400]),
+        getHero(context, weights, color: Colors.lightBlue[400]),
+        getHero(context, temperatures, color: Colors.yellow[400]),
+        getHero(context, time, color: Colors.purple[400]),
+        getHero(context, angle, color: Colors.orange[400]),
+        getHero(context, pressure, color: Colors.grey[400]),
+        getHero(context, data, color: Colors.teal[400]),
       ],
+    );
+  }
+
+
+}
+
+String getTextString(double value, {int limit = 6}) {
+  double endVal = Utils.dp((value), limit);
+
+  if (endVal >= 9223372036854.775) return L.string('E:highValue');
+  return endVal.toString();
+}
+
+class SmartUnitConvertCard extends StatefulWidget {
+
+  String langName;
+  Map<List<String>, double> values; /// {[lang, symbol] : factor}
+  Function(int id, String name, String value, double factor, List<TextEditingController> controller) updateText;
+  IconData icon;
+
+  List<TextEditingController> _controller = [];
+
+  SmartUnitConvertCard({@required this.langName, @required this.values, this.updateText, this.icon}) {
+    values.forEach((key, factor) {
+      _controller.add(TextEditingController());
+    });
+  }
+
+  @override
+  _SmartUnitConvertCardState createState() => _SmartUnitConvertCardState();
+}
+
+class _SmartUnitConvertCardState extends State<SmartUnitConvertCard> {
+
+  _SmartUnitConvertCardState() {
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(L.string(widget.langName)),
+        elevation: 0,
+      ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: appliedTheme.primaryColorLight,
+        child: Hero(
+          tag: widget.langName,
+          child: Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              //decoration: BoxDecoration(
+              color: appliedTheme.canvasColor,
+              //borderRadius: BorderRadius.circular(16)
+              margin: EdgeInsets.all(12),
+              child: Builder(
+                builder: (BuildContext context) => ListView(
+                  children: makeTextFields(context),
+                ),
+              )),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> makeTextFields(BuildContext context) {
+    List<Widget> widgets = [];
+    int i = 0;
+    widget.values.forEach((key, factor) {
+      widgets.add(getTextField(i, context, L.string(key[0]), key[1], factor, widget._controller[i]));
+      i++;
+    });
+    return widgets;
+  }
+
+  void updateTextFiels(int id, String name, String value, double factor) {
+    if(widget.updateText != null)
+      setState(() {widget.updateText(id, name, value, factor, widget._controller);});
+    else {
+      double number = factor > 0 ? double.parse(value) * factor : double.parse(value) / (factor * -1);
+      if (value == ' ' || value == null) number = 0.0;
+
+      int i = 0;
+      setState(() {
+        widget.values.forEach((key, factor2) {
+          if(id != i) {
+            widget._controller[i].text =  getTextString(factor2 > 0 ? (number / factor2) : (number * (factor2 * -1)));
+          }
+          i++;
+        });
+      });
+    }
+  }
+
+  Widget getTextField(int id, BuildContext context, String locName, String shortName, double factor, TextEditingController controller, {IconData icon}) {
+    icon ??= widget.icon;
+    return Container(
+      constraints: BoxConstraints(maxHeight: 56),
+      margin: EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 5,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: locName,
+                  labelStyle: TextStyle(fontSize: 12),
+                  icon: FaIcon(icon)),
+              controller: controller,
+              onChanged: (value) => updateTextFiels(id, locName, value, factor),
+              onTap: () => controller.selection = TextSelection(
+                  baseOffset: 0, extentOffset: controller.text.length),
+            ),
+          ),
+          Flexible(flex: 1, child: Text(shortName))
+        ],
+      ),
     );
   }
 }
@@ -158,8 +215,7 @@ class UnitConvertCard {
     value == '' ? number = 0.0 : number = double.parse(value) * factor;
   }
 
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller) {
+  Widget getTextField(int id, BuildContext context, String locName, String shortName, double factor, TextEditingController controller) {
     return Container(
       constraints: BoxConstraints(maxHeight: 56),
       margin: EdgeInsets.only(left: 8, right: 8),
@@ -179,8 +235,7 @@ class UnitConvertCard {
   }
 }
 
-Widget getCardTemplate(BuildContext context, String name,
-    {VoidCallback onPressed, Widget icon, Color color = Colors.white}) {
+Widget getCardTemplate(BuildContext context, String name, {VoidCallback onPressed, Widget icon, Color color = Colors.white}) {
   if (icon == null)
     icon = FaIcon(
       FontAwesomeIcons.shapes,
@@ -221,8 +276,7 @@ class LengthSurfaceVolume extends StatefulWidget {
   _LengthSurfaceVolumeState createState() => _LengthSurfaceVolumeState();
 }
 
-class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume>
-    implements UnitConvertCard {
+class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume> implements UnitConvertCard {
   var _meterController = TextEditingController();
   var _kiloMController = TextEditingController();
   var _centiMController = TextEditingController();
@@ -516,832 +570,157 @@ class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume>
 
 /// Page 2
 /// Speed
-
-class Speed extends StatefulWidget {
-  @override
-  _SpeedState createState() => _SpeedState();
-}
-
-class _SpeedState extends State<Speed> implements UnitConvertCard {
-  var _kmhController = TextEditingController();
-  var _msController = TextEditingController();
-  var _milehController = TextEditingController();
-  var _footsController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('speed')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'speed',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('kmh'), 'km/h', 10,
-                        _kmhController),
-                    getTextField(1, context, L.string('ms'), 'm/s', 0.36,
-                        _msController),
-                    getTextField(2, context, L.string('mileh'), 'mile/h',
-                        0.160934, _milehController),
-                    getTextField(3, context, L.string('foots'), 'foot/s',
-                        0.109728, _footsController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number = double.parse(value) * factor;
-    value == '' ? number = 0.0 : number = double.parse(value) * factor;
-
-    setState(() {
-      id == 0 ? null : _kmhController.text = getTextString(number * 10);
-      id == 1
-          ? null
-          : _msController.text = getTextString(number * 0.0277777778);
-      id == 2
-          ? null
-          : _milehController.text = getTextString(number * 0.0621371);
-      id == 3
-          ? null
-          : _footsController.text = getTextString(number * 0.0911344);
-    });
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller,
-      {int requirement = -1, IconData icon = FontAwesomeIcons.tachometerAlt}) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(icon)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  String getTextString(double value) {
-    double endVal = Utils.dp((value), 6);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
+var speed = SmartUnitConvertCard(
+    langName: 'speed',
+    values: {
+      ['kmh', 'km/h'] : 1,
+      ['ms', 'm/s'] : 3.6,
+      ['mileh', 'mile/h'] : 1.60934,
+      ['foots', 'foot/s'] : 1.09728
+    },
+    icon: FontAwesomeIcons.tachometerAlt
+);
 
 /// Page 3
 /// Weights
-
-class Weight extends StatefulWidget {
-  @override
-  _WeightState createState() => _WeightState();
-}
-
-class _WeightState extends State<Weight> implements UnitConvertCard {
-  var _tonnController = TextEditingController();
-  var _kiloGController = TextEditingController();
-  var _grammGController = TextEditingController();
-  var _milliGController = TextEditingController();
-  var _poundController = TextEditingController();
-  var _ounceController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('weight')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'weight',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('tonne'), 't', 1000000,
-                        _tonnController),
-                    getTextField(1, context, L.string('kiloG'), 'kg', 1000,
-                        _kiloGController),
-                    getTextField(2, context, L.string('gramm'), 'g', 1,
-                        _grammGController),
-                    getTextField(3, context, L.string('milliG'), 'mg', 0.001,
-                        _milliGController),
-                    getTextField(4, context, L.string('pound'), 'lb', 500,
-                        _poundController),
-                    getTextField(5, context, L.string('ounce'), 'oz', 28.3495,
-                        _ounceController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller,
-      {int requirement = -1}) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.weightHanging)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number = double.parse(value) * factor;
-    value == '' ? number = 0.0 : number = double.parse(value) * factor;
-
-    setState(() {
-      id == 0 ? null : _tonnController.text = getTextString(number * 0.000001);
-      id == 1 ? null : _kiloGController.text = getTextString(number * 0.001);
-      id == 2 ? null : _grammGController.text = getTextString(number * 1);
-      id == 3 ? null : _milliGController.text = getTextString(number * 1000);
-      id == 4 ? null : _poundController.text = getTextString(number * 0.002);
-      id == 5
-          ? null
-          : _ounceController.text = getTextString(number * 0.0352739907);
-    });
-  }
-
-  String getTextString(double value) {
-    double endVal = Utils.dp((value), 6);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
+var weights = SmartUnitConvertCard(
+    langName: 'weight',
+    values: {
+      ['tonne', 't'] : 1000000,
+      ['kiloG', 'kg'] : 1000,
+      ['gramm', 'g'] : 1,
+      ['milliG', 'mg'] : 0.001,
+      ['pound', 'lb'] : 453.592,
+      ['ounce', 'oz'] : 28.3495,
+    },
+    icon: FontAwesomeIcons.weightHanging
+);
 
 /// Page 4
 /// Temperatures
-class Temperature extends StatefulWidget {
-  @override
-  _TemperatureState createState() => _TemperatureState();
-}
+var temperatures = SmartUnitConvertCard(
+    langName: 'temperature',
+    values: {
+      ['celsius', '°C'] : 1,
+      ['fahrenheit', '°F'] : 1,
+      ['kelvin', 'K'] : 1
+    },
+    icon: FontAwesomeIcons.thermometerHalf,
+    updateText: (id, locName, value, factor, controller) {
+      double number = double.parse(value) * factor;
+      value == '' ? number = 0.0 : number = double.parse(value) * factor;
 
-class _TemperatureState extends State<Temperature> implements UnitConvertCard {
-  var _celsiusController = TextEditingController();
-  var _fahrenheitController = TextEditingController();
-  var _kelvinController = TextEditingController();
+      double celsius;
+      double fahrenheit;
+      double kelvin;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('temperatur')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'temperatur',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('celsius'), '°C', 1,
-                        _celsiusController),
-                    getTextField(1, context, L.string('fahrenheit'), '°F', 1,
-                        _fahrenheitController),
-                    getTextField(2, context, L.string('kelvin'), 'K', 1,
-                        _kelvinController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.thermometerHalf)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number = double.parse(value) * factor;
-    value == '' ? number = 0.0 : number = double.parse(value) * factor;
-
-    double celsius;
-    double fahrenheit;
-    double kelvin;
-
-    if (id == 0) {
-      celsius = 0;
-      fahrenheit = number * 1.8 + 32;
-      kelvin = number + 273.15;
-    } else if (id == 1) {
-      celsius = (number - 32) * 5.0 / 9.0;
-      fahrenheit = 0;
-      kelvin = (number + 459.67) * 5.0 / 9.0;
-    } else {
-      celsius = number - 273.15;
-      fahrenheit = number * 1.8 - 459.67;
-      kelvin = 0;
-    }
-    setState(() {
-      id == 0 ? null : _celsiusController.text = getTextString(celsius);
-      id == 1 ? null : _fahrenheitController.text = getTextString(fahrenheit);
-      id == 2 ? null : _kelvinController.text = getTextString(kelvin);
-    });
-  }
-
-  String getTextString(double value) {
-    double endVal = Utils.dp((value), 3);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
+      if (id == 0) {
+        celsius = 0;
+        fahrenheit = number * 1.8 + 32;
+        kelvin = number + 273.15;
+      } else if (id == 1) {
+        celsius = (number - 32) * 5.0 / 9.0;
+        fahrenheit = 0;
+        kelvin = (number + 459.67) * 5.0 / 9.0;
+      } else {
+        celsius = number - 273.15;
+        fahrenheit = number * 1.8 - 459.67;
+        kelvin = 0;
+      }
+      id == 0 ? null : controller[0].text = getTextString(celsius);
+      id == 1 ? null : controller[1].text = getTextString(fahrenheit);
+      id == 2 ? null : controller[2].text = getTextString(kelvin);
+    },
+ );
 
 /// Page 5
 /// Time
-class Time extends StatefulWidget {
-  @override
-  _TimeState createState() => _TimeState();
-}
-
-class _TimeState extends State<Time> implements UnitConvertCard {
-  var _yearController = TextEditingController();
-  var _monthController = TextEditingController();
-  var _weekController = TextEditingController();
-  var _dayController = TextEditingController();
-  var _hourController = TextEditingController();
-  var _minuteController = TextEditingController();
-  var _secondController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('time')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'time',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('year'), 'a', 365.2422,
-                        _yearController),
-                    getTextField(1, context, L.string('month'), '1/12a',
-                        30.43685, _monthController),
-                    getTextField(2, context, L.string('week'), '7d', 7,
-                        _weekController),
-                    getTextField(
-                        3, context, L.string('day'), 'd', 1, _dayController),
-                    //0.041666666666666667
-                    getTextField(4, context, L.string('hour'), 'h', -24.0,
-                        _hourController),
-                    getTextField(5, context, L.string('minute'), 'min',
-                        -1440.0, _minuteController),
-                    getTextField(6, context, L.string('second'), 's',
-                        -86400.0, _secondController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.clock)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number;
-    factor > 0
-        ? number = double.parse(value) * factor
-        : number = double.parse(value) / (factor * -1);
-    if (value == ' ' || value == null) number = 0.0;
-
-    setState(() {
-      //0.0027379092558307885
-      id == 0
-          ? null
-          : _yearController.text = getTextString(number / 365.2422, limit: 4);
-      //0.032854911069969457
-      id == 1
-          ? null
-          : _monthController.text = getTextString(number / 30.43685, limit: 3);
-      id == 2 ? null : _weekController.text = getTextString(number / 7);
-      id == 3 ? null : _dayController.text = getTextString(number * 1);
-      id == 4 ? null : _hourController.text = getTextString(number * 24);
-      id == 5 ? null : _minuteController.text = getTextString(number * 1440);
-      id == 6 ? null : _secondController.text = getTextString(number * 86400);
-    });
-  }
-
-  String getTextString(double value, {int limit = 6}) {
-    double endVal = Utils.dp((value), limit);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
+var time = SmartUnitConvertCard(
+    langName: 'time',
+    values: {
+      ['year', 'a'] : 365.2422,
+      ['month', 'a/12'] : 365.2422 / 12,
+      ['week', '7d'] : 7,
+      ['day', 'd'] : 1,
+      ['hour', 'h'] : -24,
+      ['minute', 'min'] : -1440,
+      ['second', 's'] : -86400
+    },
+    icon: FontAwesomeIcons.clock
+);
 
 /// Page 6
 /// Angle
-class Angle extends StatefulWidget {
-  @override
-  _AngleState createState() => _AngleState();
-}
+var angle = SmartUnitConvertCard(
+    langName: 'angle',
+    values: {
+      ['degree', '°'] : 1,
+      ['gon', 'gon'] : 0.9,
+      ['minute', 'min'] : -60,
+      ['second', 's'] : -3600,
+      ['radiant', 'rad'] : 1,
+    },
+    icon: FontAwesomeIcons.draftingCompass,
+    updateText: (int id, String name, String value, double factor, List<TextEditingController> controller) {
+      double toRadiant(double value) => value * (pi / 180);
+      double fromRadiant(double value) => value * (180 / pi);
 
-class _AngleState extends State<Angle> implements UnitConvertCard {
-  var _degreeController = TextEditingController();
-  var _minuteController = TextEditingController();
-  var _secondController = TextEditingController();
-  var _radiantController = TextEditingController();
+      double number;
+      factor > 0
+          ? number = double.parse(value) * factor
+          : number = double.parse(value) / (factor * -1);
+      if (value == ' ' || value == null) number = 0.0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('angle')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'angle',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('degree'), '°', 1,
-                        _degreeController),
-                    getTextField(1, context, L.string('minute'), 'min', -60,
-                        _minuteController),
-                    getTextField(2, context, L.string('second'), 's', -3600,
-                        _secondController),
-                    getTextField(3, context, L.string('radiant'), 'rad', 1,
-                        _radiantController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
+      if (id == 3) number = fromRadiant(number);
+      print(number);
 
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller,
-      {int requirement = -1}) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.draftingCompass)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number;
-    factor > 0
-        ? number = double.parse(value) * factor
-        : number = double.parse(value) / (factor * -1);
-    if (value == ' ' || value == null) number = 0.0;
-
-    if (id == 3) number = fromRadiant(number);
-    print(number);
-
-    setState(() {
-      id == 0 ? null : _degreeController.text = getTextString(number * 1);
-      id == 1 ? null : _minuteController.text = getTextString(number * 60);
-      id == 2 ? null : _secondController.text = getTextString(number * 3600);
-      id == 3
-          ? null
-          : _radiantController.text = getTextString(toRadiant(number * 1));
-    });
-  }
-
-  String getTextString(double value) {
-    double endVal = Utils.dp((value), 6);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-
-  double toRadiant(double value) {
-    return value * (pi / 180);
-  }
-
-  double fromRadiant(double value) {
-    return value * (180 / pi);
-  }
-}
+        id == 0 ? null : controller[0].text = getTextString(number * 1);
+        id == 1 ? null : controller[1].text = getTextString(number / 0.9);
+        id == 2 ? null : controller[2].text = getTextString(number * 60);
+        id == 3 ? null : controller[3].text = getTextString(number * 3600);
+        id == 4 ? null : controller[4].text = getTextString(toRadiant(number * 1));
+    },
+);
 
 /// Page 7
 /// Pressure
-class Pressure extends StatefulWidget {
-  @override
-  _PressureState createState() => _PressureState();
-}
-
-class _PressureState extends State<Pressure> {
-  var _barController = TextEditingController();
-  var _pascalController = TextEditingController();
-  var _npermmController = TextEditingController();
-  var _npercmController = TextEditingController();
-  var _npermController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('pressure')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'pressure',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('bar'), 'bar', 1,
-                        _barController),
-                    getTextField(1, context, L.string('pascal'), 'Pa',
-                        -100000, _pascalController),
-                    getTextField(2, context, L.string('n/mm²'), 'N/mm²', 10,
-                        _npermmController),
-                    getTextField(3, context, L.string('n/cm²'), 'N/cm²', -10,
-                        _npercmController),
-                    getTextField(4, context, L.string('n/m²'), 'N/m²',
-                        -100000, _npermController),
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.compressArrowsAlt)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number;
-    factor > 0
-        ? number = double.parse(value) * factor
-        : number = double.parse(value) / (factor * -1);
-    if (value == ' ' || value == null) number = 0.0;
-
-    setState(() {
-      id == 0 ? null : _barController.text = getTextString(number * 1);
-      id == 1 ? null : _pascalController.text = getTextString(number * 100000);
-      id == 2 ? null : _npermmController.text = getTextString(number / 10);
-      id == 3 ? null : _npercmController.text = getTextString(number * 10);
-      id == 4 ? null : _npermController.text = getTextString(number * 100000);
-    });
-  }
-
-  String getTextString(double value, {int limit = 6}) {
-    double endVal = Utils.dp((value), limit);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
+var pressure = SmartUnitConvertCard(
+    langName: 'pressure',
+    values: {
+      ['bar', 'bar'] : 1,
+      ['pascal', 'Pa'] : -100000,
+      ['n/mm²', 'N/mm²'] : 10,
+      ['n/cm²', 'N/cm²'] : -10,
+      ['n/m²', 'N/m²'] : -100000,
+    },
+    icon: FontAwesomeIcons.compressArrowsAlt
+);
 
 /// Page 9
 /// Data
-class Data extends StatefulWidget {
-  @override
-  _DataState createState() => _DataState();
-}
-
-class _DataState extends State<Data> {
-  var _bitController = TextEditingController();
-  var _kilobitController = TextEditingController();
-  var _megabitController = TextEditingController();
-  var _gigabitController = TextEditingController();
-  var _terrabitController = TextEditingController();
-  var _petabitController = TextEditingController();
-  var _byteController = TextEditingController();
-  var _kilobyteController = TextEditingController();
-  var _megabyteController = TextEditingController();
-  var _gigabyteController = TextEditingController();
-  var _terrabyteController = TextEditingController();
-  var _petabyteController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(L.string('data')),
-        elevation: 0,
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: appliedTheme.primaryColorLight,
-        child: Hero(
-          tag: 'data',
-          child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              //decoration: BoxDecoration(
-              color: appliedTheme.canvasColor,
-              //borderRadius: BorderRadius.circular(16)
-              margin: EdgeInsets.all(12),
-              child: Builder(
-                builder: (BuildContext context) => ListView(
-                  children: [
-                    getTextField(0, context, L.string('bit'), 'bit', -1000000, _bitController),
-                    getTextField(1, context, L.string('kilobit'), 'Kbit', -1000, _kilobitController),
-                    getTextField(2, context, L.string('megabit'), 'Mbit', 1, _megabitController),
-                    getTextField(3, context, L.string('gigabit'), 'Gbit', 1000, _gigabitController),
-                    getTextField(4, context, L.string('terrabit'), 'Tbit', 1000000, _terrabitController),
-                    getTextField(5, context, L.string('petabit'), 'Pbit', 1000000000, _petabitController),
-                    getTextField(6, context, L.string('byte'), 'b', -125000, _byteController),
-                    getTextField(7, context, L.string('kilobyte'), 'Kb', -125, _kilobyteController),
-                    getTextField(8, context, L.string('megabyte'), 'Mb', 8, _megabyteController),
-                    getTextField(9, context, L.string('gigabyte'), 'Gb', 8000, _gigabyteController),
-                    getTextField(10, context, L.string('terrabyte'), 'Tb', 8000000, _terrabyteController),
-                    getTextField(11, context, L.string('petabyte'), 'Pb', 8000000000, _petabyteController)
-
-                  ],
-                ),
-              )),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget getTextField(int id, BuildContext context, String locName,
-      String shortName, double factor, TextEditingController controller,
-      {int requirement = -1}) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 56),
-      margin: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 5,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: locName,
-                  labelStyle: TextStyle(fontSize: 12),
-                  icon: FaIcon(FontAwesomeIcons.weightHanging)),
-              controller: controller,
-              onChanged: (value) => updateTextField(id, locName, value, factor),
-              onTap: () => controller.selection = TextSelection(
-                  baseOffset: 0, extentOffset: controller.text.length),
-            ),
-          ),
-          Flexible(flex: 1, child: Text(shortName))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void updateTextField(int id, String name, String value, double factor) {
-    double number;
-    factor > 0
-        ? number = double.parse(value) * factor
-        : number = double.parse(value) / (factor * -1);
-    if (value == ' ' || value == null) number = 0.0;
-
-    setState(() {
-      id == 0 ? null : _bitController.text = getTextString(number / 1000000);
-      id == 1 ? null : _kilobitController.text = getTextString(number / 1000);
-      id == 2 ? null : _megabitController.text = getTextString(number * 1);
-      id == 3 ? null : _gigabitController.text = getTextString(number * 1000);
-      id == 4 ? null : _terrabitController.text = getTextString(number * 1000000);
-      id == 5 ? null : _petabitController.text = getTextString(number * 1000000000);
-      id == 6 ? null : _byteController.text = getTextString(number * 125000 );
-      id == 7 ? null : _kilobyteController.text = getTextString(number * 125);
-      id == 8 ? null : _megabyteController.text = getTextString(number / 8);
-      id == 9 ? null : _gigabyteController.text = getTextString(number / 8000);
-      id == 10 ? null : _terrabyteController.text = getTextString(number / 8000000);
-      id == 11 ? null : _petabyteController.text = getTextString(number / 8000000000);
-    });
-  }
-
-  String getTextString(double value, {int limit = 6}) {
-    double endVal = Utils.dp((value), limit);
-
-    if (endVal >= 9223372036854.775) return L.string('E:highValue');
-    return endVal.toString();
-  }
-}
-
+var data = SmartUnitConvertCard(
+    langName: 'data',
+    values: {
+      ['bit', 'Bit'] : -1000000,
+      ['kilobit', 'Kbit'] : -1000,
+      ['megabit', 'Mbit'] : 1,
+      ['gigabit', 'Gbit'] : 1000,
+      ['terrabit', 'Tbit'] : 1000000,
+      ['petabit', 'Pbit'] : 1000000000,
+      ['byte', 'b'] : -125000,
+      ['kilobyte', 'Kb'] : -125,
+      ['megabyte', 'Mb'] : 8,
+      ['gigabyte', 'Gb'] : 8000,
+      ['terrabyte', 'Tb'] : 8000000,
+      ['petabyte', 'Pb'] : 8000000000,
+    },
+    icon: FontAwesomeIcons.weightHanging
+);
 
 /// Page 10
 /// Forces
+// TODO: forces
 
 /// Page 11
 /// currencies
+// TODO: currencies (mit echtzeit wechselkurs)
