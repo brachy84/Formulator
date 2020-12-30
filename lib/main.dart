@@ -180,6 +180,7 @@ class _AppHome extends State<AppHome> {
 
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return FutureBuilder(
