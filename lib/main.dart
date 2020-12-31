@@ -1,4 +1,5 @@
 import 'package:all_the_formulars/constants.dart';
+import 'package:all_the_formulars/core/system/webdata.dart';
 import 'package:all_the_formulars/core/themes.dart';
 import 'package:all_the_formulars/core/utils.dart';
 import 'file:///C:/Users/Joel/AndroidStudioProjects/all_the_formulars/lib/Settings.dart';
@@ -25,6 +26,8 @@ bool versionChecked = false;
 JsonSetup _json;
 JsonSetup get jsonFile => _json;
 
+bool isInitialized = false;
+
 ThemeData _appliedTheme;
 set appliedTheme(ThemeData theme) {
   _appliedTheme = theme;
@@ -36,7 +39,16 @@ void main() async {
   runApp(ChangeNotifierProvider<ThemeNotifier>(
       create: (_) => ThemeNotifier(Themes.darkTheme), child: FormularApp()));
   Settings.initTheme();
-  await Localization.init();
+}
+
+Future<bool> init() async {
+  if(!isInitialized) {
+    isInitialized = true;
+    await Localization.init();
+    await WebData.initCurrencyExchange();
+    //await Future.delayed(Duration(milliseconds: Const.SPLASH_SCREEN_TIMER)); // Timer so the splash screen stays longer
+  }
+  return true;
 }
 
 class FormularApp extends StatelessWidget {
@@ -181,10 +193,11 @@ class _AppHome extends State<AppHome> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
+    print('Screensize ${screenSize.width} x ${screenSize.height}');
     final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return FutureBuilder(
-      future: Localization.init(),
+      future: init(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
           if(!versionChecked) checkVersion();
