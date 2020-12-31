@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:all_the_formulars/constants.dart';
+import 'package:all_the_formulars/core/system/webdata.dart';
 import 'package:all_the_formulars/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -42,7 +44,8 @@ class UnitConvertHome {
                     MaterialPageRoute(
                         builder: (context) => LengthSurfaceVolume()));
               },
-            )),
+            )
+        ),
         getHero(context, speed, color: Colors.lightGreen[400]),
         getHero(context, weights, color: Colors.lightBlue[400]),
         getHero(context, temperatures, color: Colors.yellow[400]),
@@ -50,6 +53,22 @@ class UnitConvertHome {
         getHero(context, angle, color: Colors.orange[400]),
         getHero(context, pressure, color: Colors.grey[400]),
         getHero(context, data, color: Colors.teal[400]),
+        getHero(context, forces, color: Colors.red[400]),
+        Hero(
+            tag: 'currencies',
+            child: getCardTemplate(
+              context,
+              'currencies',
+              color: Colors.blueGrey[400],
+              icon: FaIcon(FontAwesomeIcons.moneyBillWave, color: Colors.black,),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Currencies()));
+              },
+            )
+        ),
       ],
     );
   }
@@ -236,11 +255,8 @@ class UnitConvertCard {
 }
 
 Widget getCardTemplate(BuildContext context, String name, {VoidCallback onPressed, Widget icon, Color color = Colors.white}) {
-  if (icon == null)
-    icon = FaIcon(
-      FontAwesomeIcons.shapes,
-      color: Colors.black,
-    );
+  icon ??= FaIcon(FontAwesomeIcons.shapes, color: Colors.black);
+
   return Card(
     color: color,
     elevation: 5,
@@ -714,13 +730,219 @@ var data = SmartUnitConvertCard(
       ['terrabyte', 'Tb'] : 8000000,
       ['petabyte', 'Pb'] : 8000000000,
     },
-    icon: FontAwesomeIcons.weightHanging
+    icon: FontAwesomeIcons.database
 );
 
 /// Page 10
 /// Forces
-// TODO: forces
+var forces = SmartUnitConvertCard(
+    langName: 'forces',
+    values: {
+      ['newton', 'N'] : 1,
+      ['kilonewton', 'kN'] : 1000,
+    },
+    icon: FontAwesomeIcons.compressArrowsAlt
+);
 
 /// Page 11
 /// currencies
-// TODO: currencies (mit echtzeit wechselkurs)
+class Currencies extends StatefulWidget {
+  @override
+  _CurrenciesState createState() => _CurrenciesState();
+}
+
+class _CurrenciesState extends State<Currencies> {
+
+  String exchangeCurrency1 = 'EUR';
+  double exchangeValue1;
+  TextEditingController _currency1Controller = TextEditingController(text: '1.0');
+  String exchangeCurrency2 = 'USD';
+  double exchangeValue2;
+  String currency2Text = '';
+
+  List<DropdownMenuItem<String>> currencyList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if(hasInternetConnection) {
+      currencyList = WebData.exchangeRates.keys.map((e) {
+        return DropdownMenuItem(
+          value: e,
+          child: Text(L.string(e.toLowerCase()) + '  |  $e'),
+          //child: Text(e),
+        );
+      }).toList();
+      exchangeValue1 = WebData.exchangeRates[exchangeCurrency1];
+      exchangeValue2 = WebData.exchangeRates[exchangeCurrency2];
+    }
+    calculateValues(_currency1Controller.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(L.string('currencies')),
+        elevation: 0,
+      ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: appliedTheme.primaryColorLight,
+        child: Hero(
+          tag: 'currencies',
+          child: Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              color: appliedTheme.canvasColor,
+              margin: EdgeInsets.all(12),
+              child: Builder(
+                builder: (BuildContext context) => hasInternetConnection ? Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 4),
+                      child: Text(L.string('rate_update'), style: TextStyle(fontSize: 12),),
+                    ),
+                    Text(L.string('rate_from') + ': ${WebData.date}'),
+                    Padding(padding: EdgeInsets.only(bottom: 16)),
+                    DropdownButton<String>(
+                      value: exchangeCurrency1,
+                      icon: Icon(Icons.arrow_drop_down),
+                      items: currencyList,
+                      onChanged: (val) {
+                        setState(() {
+                          exchangeCurrency1 = val;
+                          exchangeValue1 = WebData.exchangeRates[exchangeCurrency1];
+                          calculateValues(_currency1Controller.text);
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                      constraints: BoxConstraints(
+                        minWidth: double.infinity,
+                        maxHeight: 40,
+                        minHeight: 30
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1
+                        ),
+                        borderRadius: BorderRadius.circular(8)
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: TextField(
+                            controller: _currency1Controller,
+                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                            textAlign: TextAlign.center,
+                            //textAlignVertical: TextAlignVertical(y: -1),
+                            onChanged: (val) {
+                              setState(() => calculateValues(val));
+                            },
+                            decoration: InputDecoration(
+                              border: InputBorder.none
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.unfold_more, size: 32),
+                      onPressed: () {
+                        setState(() {
+                          String temp = exchangeCurrency1;
+                          exchangeCurrency1 = exchangeCurrency2;
+                          exchangeCurrency2 = temp;
+                          calculateValues(_currency1Controller.text);
+                        });
+                      },
+                    ),
+                    DropdownButton<String>(
+                      value: exchangeCurrency2,
+                      icon: Icon(Icons.arrow_drop_down),
+                      items: currencyList,
+                      onChanged: (val) {
+                        setState(() {
+                          exchangeCurrency2 = val;
+                          exchangeValue2 = WebData.exchangeRates[exchangeCurrency2];
+                          calculateValues(_currency1Controller.text);
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 0, left: 32, right: 32),
+                      constraints: BoxConstraints(
+                        minWidth: double.infinity,
+                        maxHeight: 40,
+                        minHeight: 30
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1
+                        ),
+                        borderRadius: BorderRadius.circular(8)
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            currency2Text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      )
+                    ),
+                  ],
+                ) : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(16),
+                      constraints: BoxConstraints(
+                        //maxWidth: screenSize.width-64,
+                        //minHeight: 30
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.warning, color: Colors.red),
+                          Container(
+                            margin: EdgeInsets.only(left: 8, right: 8),
+                            child: Text(L.string('E:no_internet'), style: TextStyle(fontSize: 16),),
+                            constraints: BoxConstraints(
+                                maxWidth: screenSize.width-128,
+                                minHeight: 30
+                            ),
+                          ),
+                          Icon(Icons.warning, color: Colors.red),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          ),
+        ),
+      ),
+    );
+  }
+
+  void calculateValues(String value) {
+    double val1 = double.parse(value);
+    // Change to EUR and then to choosen currency
+    if(hasInternetConnection) {
+      val1 *= WebData.exchangeRates['EUR'] / WebData.exchangeRates[exchangeCurrency1];
+
+      val1 *= WebData.exchangeRates[exchangeCurrency2];
+    } else {
+      val1 = 0.0;
+    }
+    currency2Text = Utils.dp(val1, 4).toString();
+  }
+}
