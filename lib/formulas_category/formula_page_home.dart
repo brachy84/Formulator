@@ -130,6 +130,7 @@ class FormulaHome {
    static Widget getFormulaHome(BuildContext context) {
      return ListView(
        children: [
+         Padding(padding: EdgeInsets.only(top: 8)),
          _getDefaultCard(context,
             color: Colors.red[700],
             title: L.string('math'),
@@ -181,24 +182,27 @@ class FormulaHome {
 
 Widget _getDefaultCard(BuildContext context, {Color color = Colors.white, String title = '-', String subtitle = '-', VoidCallback onPressed}) {
   return Container(
-    margin: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
+    margin: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16)
       ),
       elevation: 10,
       color: color,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(title, style: TextStyle(fontSize: 24, color: Colors.white),),
-            subtitle: Text(subtitle, style: TextStyle(color: Colors.white),),
-            trailing: IconButton(
-              icon: Icon(Icons.chevron_right, color: Colors.white),
-              onPressed: onPressed,
-            ),
-          )
-        ],
+      child: Container(
+        margin: EdgeInsets.all(4),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(title, style: TextStyle(fontSize: 24, color: Colors.white),),
+              subtitle: Text(subtitle, style: TextStyle(fontSize: 14, color: Colors.white)),
+              trailing: IconButton(
+                icon: Icon(Icons.chevron_right, color: Colors.white),
+                onPressed: onPressed,
+              ),
+            )
+          ],
+        ),
       ),
     ),
   );
