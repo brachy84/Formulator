@@ -39,7 +39,6 @@ class Localization {
       });
       loaded = true;
     }
-    await Future.delayed(Duration(milliseconds: Const.SPLASH_SCREEN_TIMER)); // Timer so the splash screen stays longer
     return true;
   }
 
