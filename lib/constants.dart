@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 Size screenSize = Size(0, 0);
+double screenDiagonal;
+bool hasInternetConnection = false;
 
 class Const {
   static const String VERSION = '1.1.0';
