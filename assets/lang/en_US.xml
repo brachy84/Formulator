@@ -120,6 +120,8 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
 
     <!-- Errors -->
     <string name="E:highValue">Value is to high!</string>
+    <string name="E:no_internet">Could not connect to Internet.
+        Please ensure you have an internet connection and restart the App!</string>
     <string name="E:valid0">Error: The Formula must contain exactly one '='</string>
     <string name="E:valid1">Error: The Formula should not end or start with '+', '-', '*', '%' or '='</string>
     <string name="E:valid2">Error: The amount of opening and closing curly braces should match</string>
@@ -272,13 +274,42 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
     <string name="rpm">rpm</string>
     <string name="rps">rps</string>
 
-    <!-- Changelog -->
-    <string name="1.0.0-1">Initial Release</string>
-    <string name="1.1.0-1">Added tutorial to the Create Formula Page</string>
-    <string name="1.1.0-2">Fixed a few issues on the Create Formula Page</string>
-    <string name="1.1.0-3">A bug was fixed where some screens only showed a grey Box</string>
-    <string name="1.1.0-4">Removed the empty Language Settings box in settings menu temporarily</string>
-    <string name="1.1.0-5">Redesigned the formula screens</string>
-    <string name="1.1.0-6">Formulas can now be calculated with specific units</string>
+    <!-- Currencys -->
+    <string name="rate_update">The Exchange rates update every day at 16:00 CET (UTC+1)</string>
+    <string name="rate_from">Rates from</string>
+    <string name="currencies">Currencies</string>
+    <string name="eur">Euro</string>
+    <string name="usd">US Dollar</string>
+    <string name="jpy">Japanese yen</string>
+    <string name="bgn">Bulgarian lev</string>
+    <string name="czk">Czech koruna</string>
+    <string name="dkk">Danish krone</string>
+    <string name="gbp">Pound sterling</string>
+    <string name="huf">Hungarian forint</string>
+    <string name="pln">Polish zloty</string>
+    <string name="ron">Romanian leu</string>
+    <string name="sek">Swedish krona</string>
+    <string name="chf">Swiss franc</string>
+    <string name="isk">Icelandic krona</string>
+    <string name="nok">Norwegian krona</string>
+    <string name="hrk">Croatian kuna</string>
+    <string name="rub">Russian rouble</string>
+    <string name="try">Turkish lira</string>
+    <string name="aud">Australian dollar</string>
+    <string name="brl">Brazilian real</string>
+    <string name="cad">Canadian dollar</string>
+    <string name="cny">Chinese yuan renminbi</string>
+    <string name="hkd">Hong Kong dollar</string>
+    <string name="idr">Indonesian rupiah</string>
+    <string name="ils">Israeli shekel</string>
+    <string name="inr">Indian rupee</string>
+    <string name="krw">South Korean won</string>
+    <string name="mxn">Mexican peso</string>
+    <string name="myr">Malaysian ringgit</string>
+    <string name="nzd">New Zealand dollar</string>
+    <string name="php">Philippine peso</string>
+    <string name="sgd">Singapore dollar</string>
+    <string name="thb">Thai baht</string>
+    <string name="zar">South African rand</string>
 
 </resources>

@@ -123,6 +123,7 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
 
     <!-- Errors -->
     <string name="E:highValue">Wert ist zu groß!</string>
+    <string name="E:no_internet">Keine Internetverbindung. Bitte stellen sie eine Internetverbindung her und starten sie die App neu!</string>
     <string name="E:valid0">Error: Die Formel muss genau ein '=' enthalten</string>
     <string name="E:valid1">Error: Die Formel darf NICHT mit diesen Zeichen anfangen oder beginnen: '+', '-', '*', '%' oder '='</string>
     <string name="E:valid2">Error: Die Anzahl der offenen und geschlossenen, geschweiften Klammern sollte gleich sein</string>
@@ -272,13 +273,42 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
     <string name="rpm">U/min</string>
     <string name="rps">U/s</string>
 
-    <!-- Changelog -->
-    <string name="1.0.0-1">Erste veröffentlichung</string>
-    <string name="1.1.0-1">Es wurde ein Tutorial zum erstellen eigener Formeln hinzugefügt</string>
-    <string name="1.1.0-2">Es wurden Bugs beim erstellen von Formeln gefixt</string>
-    <string name="1.1.0-3">Es wurde ein Bug gefixt bei dem eine graue Box gezeigt wurde</string>
-    <string name="1.1.0-4">Die (leeren) Spracheinstellungen wurden vorübergehend entfernt</string>
-    <string name="1.1.0-5">Die Formel Seiten wurden überarbeitet</string>
-    <string name="1.1.0-6">Die Formeln können jetzt in bestimmten Einheiten berechnet werden</string>
+    <!-- Currencys -->
+    <string name="rate_update">Die Wechselkurse wird jeden Tag um 16:00 CET (UTC+1) geupdated</string>
+    <string name="rate_from">Wechselkurse vom</string>
+    <string name="currencies">Währungen</string>
+    <string name="eur">Euro</string>
+    <string name="usd">US Dollar</string>
+    <string name="jpy">Japanische Yen</string>
+    <string name="bgn">Bulgarische Lew</string>
+    <string name="czk">Tschechische Krone</string>
+    <string name="dkk">Dänische Krone</string>
+    <string name="gbp">Britisher Pfund</string>
+    <string name="huf">Ungarische Forint</string>
+    <string name="pln">Polnische Zloty</string>
+    <string name="ron">Romänische Leu</string>
+    <string name="sek">Schwedische Krone</string>
+    <string name="chf">Schweizer Franken</string>
+    <string name="isk">Isländische Krone</string>
+    <string name="nok">Norwegische Krone</string>
+    <string name="hrk">Kroatische Kuna</string>
+    <string name="rub">Russische Rubel</string>
+    <string name="try">Turkische Lira</string>
+    <string name="aud">Australische Dollar</string>
+    <string name="brl">Brasilianische Real</string>
+    <string name="cad">Kanadische Dollar</string>
+    <string name="cny">Chinesische yuan Renminbi</string>
+    <string name="hkd">Hong Kong Dollar</string>
+    <string name="idr">Indonesische Rupiah</string>
+    <string name="ils">Israelischer Schekel</string>
+    <string name="inr">Indische Rupie</string>
+    <string name="krw">Süd Koreanische Won</string>
+    <string name="mxn">Mexikanischer Peso</string>
+    <string name="myr">Malaysischer Ringgit</string>
+    <string name="nzd">Neu Seeländischer Dollar</string>
+    <string name="php">Philippinischer Peso</string>
+    <string name="sgd">Singapur-Dollar</string>
+    <string name="thb">Thailändischer Baht</string>
+    <string name="zar">Süd Afrikanischer Rand</string>
 
 </resources>
