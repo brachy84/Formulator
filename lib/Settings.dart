@@ -31,14 +31,14 @@ class Settings {
     accentList.insert(0, Themes.themes[selectValue].accentColor);
     primaryList.insert(0, Themes.themes[selectValue].primaryColor);
     //await SaveData.saveDataInit();
-    colorIndexPrimary = await SaveData.readData('PRIMARY_INDEX');
-    colorIndexAccent = await SaveData.readData('ACCENT_INDEX');
+    //colorIndexPrimary = await SaveData.readData('PRIMARY_INDEX');
+    //colorIndexAccent = await SaveData.readData('ACCENT_INDEX');
     selectValue = await SaveData.readData('THEME_INDEX');
-    colorIndexPrimary ??= 24;
-    colorIndexAccent ??= 16;
+    //colorIndexPrimary ??= 24;
+    //colorIndexAccent ??= 16;
     selectValue ??= 1;
     appliedTheme = Themes.themes[selectValue];
-    FormularApp.themeNotifier.setTheme(appliedTheme, primary: primaryList[colorIndexPrimary], accent: accentList[colorIndexAccent]);
+    FormularApp.themeNotifier.setTheme(appliedTheme);
   }
 }
 
@@ -59,8 +59,8 @@ class _SettingsHome extends State<SettingsHome> {
   void dispose() {
     logcat('--DISPOSE--');
     SaveData.saveData('THEME_INDEX', Settings.selectValue);
-    SaveData.saveData('ACCENT_INDEX', Settings.colorIndexAccent);
-    SaveData.saveData('PRIMARY_INDEX', Settings.colorIndexPrimary);
+    //SaveData.saveData('ACCENT_INDEX', Settings.colorIndexAccent);
+    //SaveData.saveData('PRIMARY_INDEX', Settings.colorIndexPrimary);
     super.dispose();
   }
 
