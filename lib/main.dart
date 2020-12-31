@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:all_the_formulars/constants.dart';
 import 'package:all_the_formulars/core/system/webdata.dart';
 import 'package:all_the_formulars/core/themes.dart';
@@ -193,7 +195,9 @@ class _AppHome extends State<AppHome> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
+    screenDiagonal = Utils.dp(sqrt(pow(screenSize.width, 2) + pow(screenSize.height, 2)), 3);
     print('Screensize ${screenSize.width} x ${screenSize.height}');
+    print('ScreenDiagonal $screenDiagonal');
     final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return FutureBuilder(
