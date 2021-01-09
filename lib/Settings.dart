@@ -1,11 +1,11 @@
-import 'file:///C:/Users/Joel/AndroidStudioProjects/all_the_formulars/lib/core/system/storage.dart';
 import 'package:all_the_formulars/core/themes.dart';
 import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/core/widgets.dart';
 import 'package:all_the_formulars/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'core/system/storage.dart';
 
 class Settings {
   static Color currentAccent = appliedTheme.accentColor;
@@ -20,8 +20,15 @@ class Settings {
 
   static List<Color> accentList = List.of(Colors.accents, growable: true);
   static List<Color> primaryList = List.of(Colors.primaries, growable: true);
-  static List<Color> greyShades = [Colors.grey[300], Colors.grey[500], Colors.grey[700], Colors.grey[800],
-    Colors.grey[850], Colors.grey[900], Colors.black];
+  static List<Color> greyShades = [
+    Colors.grey[300],
+    Colors.grey[500],
+    Colors.grey[700],
+    Colors.grey[800],
+    Colors.grey[850],
+    Colors.grey[900],
+    Colors.black
+  ];
 
   static void initTheme() async {
     selectValue = await SaveData.readData('THEME_INDEX');
@@ -48,7 +55,6 @@ class SettingsHome extends StatefulWidget {
 }
 
 class _SettingsHome extends State<SettingsHome> {
-
   @override
   void initState() {
     logcat('--INIT STATE--');
@@ -67,18 +73,19 @@ class _SettingsHome extends State<SettingsHome> {
   Widget getHeader(String title) {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(top: 8),
-          child: Text(title, style: TextStyle(decoration: TextDecoration.underline, fontSize: 16),)
-      ),
+          margin: EdgeInsets.only(top: 8),
+          child: Text(
+            title,
+            style:
+                TextStyle(decoration: TextDecoration.underline, fontSize: 16),
+          )),
     );
   }
 
   Widget getSettingCard({String header, List<Widget> children}) {
     children.insert(0, getHeader(header));
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 10,
       margin: EdgeInsets.only(bottom: 8, top: 8),
       child: Column(
@@ -169,8 +176,7 @@ class _SettingsHome extends State<SettingsHome> {
                   ),
                 ]
             ),*/
-            getSettingCard(header: L.string('themeSettings'),
-            children: [
+            getSettingCard(header: L.string('themeSettings'), children: [
               RadioListTile(
                 title: Text(L.string('bright')),
                 value: 0,
@@ -203,8 +209,7 @@ class _SettingsHome extends State<SettingsHome> {
                   onThemeChange(value, themeNotifier);
                 },
               ),
-            ]
-            ),
+            ]),
             //getSettingCard(header: loc.string('languageSettings'),
             //  children: []),
           ],

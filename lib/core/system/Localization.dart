@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:all_the_formulars/constants.dart';
-import 'package:all_the_formulars/core/utils.dart';
 import 'package:flutter/services.dart';
 import 'package:xml/xml.dart';
 
-class Localization {
+import '../utils.dart';
 
+class Localization {
   static String langCode = 'null';
 
   //Localization2(this.langCode);
@@ -17,14 +16,19 @@ class Localization {
   static bool startLoading = false;
 
   static Future<bool> init() async {
-    if(!loaded && _localizedString.length == 0) {
+    if (!loaded && _localizedString.length == 0) {
       langCode = Platform.localeName.split('_')[0];
       logcat('langcode: $langCode');
       String langFilePath = 'assets/lang/';
-      switch(langCode) {
-        case 'de' : langFilePath += 'de_DE.xml'; break;
-        case 'en' : langFilePath += 'en_US.xml'; break;
-        default : langFilePath += 'en_US.xml';
+      switch (langCode) {
+        case 'de':
+          langFilePath += 'de_DE.xml';
+          break;
+        case 'en':
+          langFilePath += 'en_US.xml';
+          break;
+        default:
+          langFilePath += 'en_US.xml';
       }
       String fileContent = await rootBundle.loadString(langFilePath);
       XmlDocument document = XmlDocument.parse(fileContent);
@@ -32,34 +36,34 @@ class Localization {
 
       await Future.forEach(elements, (element) {
         String string = element.firstChild.toString();
-        if(string.contains('&amp;')) {
-          string = string.replaceRange(string.indexOf('&'), string.indexOf(';')+1, '&');
+        if (string.contains('&amp;')) {
+          string = string.replaceRange(
+              string.indexOf('&'), string.indexOf(';') + 1, '&');
         }
-        _localizedString.addAll({element.getAttribute('name') : string});
+        _localizedString.addAll({element.getAttribute('name'): string});
       });
       loaded = true;
     }
     return true;
   }
 
-  static Future fillMap(XmlDocument document) async{
+  static Future fillMap(XmlDocument document) async {
     var elements = document.findAllElements('string');
     await Future.forEach(elements, (element) {
-      _localizedString.addAll({element.getAttribute('name') : element.firstChild.toString()});
+      _localizedString.addAll(
+          {element.getAttribute('name'): element.firstChild.toString()});
     });
     loaded = true;
     return;
   }
 
   String string(String key) {
-    if (_localizedString[key] == null ||
-        _localizedString[key].isEmpty) {
+    if (_localizedString[key] == null || _localizedString[key].isEmpty) {
       return 'e:(value[$key])';
     }
     return _localizedString[key];
   }
 }
-
 
 /*
 class Localization {

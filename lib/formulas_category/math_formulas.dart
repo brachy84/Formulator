@@ -1,4 +1,5 @@
 import 'package:all_the_formulars/core/formula/formula2.dart';
+import 'package:all_the_formulars/core/formula/units.dart';
 import 'package:all_the_formulars/main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,20 +13,20 @@ class MathFormulas {
     color: Colors.red,
     icon: FaIcon(FontAwesomeIcons.shapes),
     data: [
-      Item(formula: Formula('A = a^2'), name: L.string('square'), title: L.string('area'), meanings: [
-        L.string('area'),
-        L.string('side_length'),
-      ],
-      units: ['m²', 'm'],
-      subItems: [
-        Item(
-            formula: Formula('U = 4*a'),
+      Item(formula: Formula2('A = a^2'),
+        name: L.string('square'),
+        title: L.string('area'),
+        meanings: [L.string('area'), L.string('side_length'),],
+        units: ['m²', 'm'],
+        subItems: [
+          Item(
+            formula: Formula2('U = 4 * a'),
             title: L.string('perimeter'),
             meanings: [L.string('perimeter'), L.string('side_length')],
             units: ['m', 'm'],)
       ]),
       Item(
-          formula: Formula('A = a * b'),
+          formula: Formula2('A = a * b'),
           name: L.string('rectangle'),
           title: L.string('area'),
           meanings: [
@@ -36,7 +37,7 @@ class MathFormulas {
           units: ['m²', 'm', 'm'],
           subItems: [
             Item(
-                formula: Formula('U = 2a+2b'),
+                formula: Formula2('U = 2a + 2b'),
                 title: L.string('perimeter'),
                 meanings: [
                   L.string('area'),
@@ -46,7 +47,7 @@ class MathFormulas {
                 units: ['m', 'm', 'm'],)
           ]),
       Item(
-          formula: Formula('A = :{g * h}/{ 2 }'),
+          formula: Formula2('A = :{ g * h }/{ 2 }'),
           name: L.string('triangle'),
           title: L.string('area'),
           meanings: [
@@ -57,7 +58,7 @@ class MathFormulas {
           units: ['m²', 'm', 'm'],
           subItems: [
             Item(
-                formula: Formula('U=a+b+c'),
+                formula: Formula2('U = a + b + c'),
                 title: L.string('perimeter'),
                 meanings: [
                   L.string('perimeter'),
@@ -68,7 +69,7 @@ class MathFormulas {
               units: ['m', 'm', 'm', 'm'],)
           ]),
       Item(
-          formula: Formula('A = l * b'),
+          formula: Formula2('A = l * b'),
           name: L.string('rhombus'),
           title: L.string('area'),
           meanings: [
@@ -79,13 +80,13 @@ class MathFormulas {
           units: ['m²', 'm', 'm'],
           subItems: [
             Item(
-                formula: Formula('U=4*l'),
+                formula: Formula2('U = 4 * l'),
                 title: L.string('perimeter'),
                 meanings: ['Perimeter', L.string('side_length')],
                 units: ['m', 'm'],)
           ]),
       Item(
-          formula: Formula('A = :{pi * d}/{ 4 }'),
+          formula: Formula2('A = :{ pi * d }/{ 4 }'),
           name: L.string('circle'),
           title: L.string('area'),
           meanings: [
@@ -95,10 +96,51 @@ class MathFormulas {
           units: ['m²', 'm'],
           subItems: [
             Item(
-                formula: Formula('U=pi*d'),
+                formula: Formula2('U = pi * d'),
                 title: L.string('perimeter'),
-                meanings: ['Perimeter', L.string('diameter')],
-                units: ['m', 'm'],)
+                meanings: [L.string('perimeter'), L.string('diameter')],
+                units: ['m', 'm'],),
+            Item(
+              formula: Formula2('l_B = :{ pi * d * alpha }/{ 360 }'), // TODO: 360°
+              title: L.string('arc_length'),
+              meanings: [L.string('arc_length'), L.string('diameter'), L.string('center_angle')],
+              units: ['m', 'm', '°'],)
+          ]),
+      Item(
+          formula: Formula2('A = l_m * b'),
+          name: L.string('trapez'),
+          title: L.string('area'),
+          meanings: [L.string('area'), L.string('average_length'), L.string('width')],
+          units: ['m²', 'm', 'm'],
+          subItems: [
+            Item(
+              formula: Formula2('l_m = :{ l_1 + l_2 }/{ 2 }'),
+              title: L.string('average_length'),
+              meanings: [L.string('average_length'), L.string('short_length'), L.string('long_length')],
+              units: ['m', 'm', 'm'],),
+          ]),
+      Item(
+          formula: Formula2('A = :{ n * l * d }/{ 4 }'),
+          name: L.string('regular_polygons'),
+          title: L.string('area'),
+          meanings: [L.string('area'), L.string('corner_number'), L.string('side_length'), L.string('inner_circle_diameter')],
+          units: ['m²', Units.NONE, 'm', 'm'],
+          subItems: [
+            Item(
+              formula: Formula2('d = √{ D^2 - l^2 }'),
+              title: L.string('inner_circle_diameter'),
+              meanings: [L.string('inner_circle_diameter'), L.string('outer_circle_diameter'), L.string('side_length')],
+              units: ['m', 'm', 'm'],),
+            Item(
+              formula: Formula2('D = √{ d^2 + l^2 }'),
+              title: L.string('outer_circle_diameter'),
+              meanings: [L.string('outer_circle_diameter'), L.string('inner_circle_diameter'), L.string('side_length')],
+              units: ['m', 'm', 'm'],),
+            Item(
+              formula: Formula2('l = D * sin[ :{ 180 }/{ n } ]', changedFormulas: {'D' : 'D = :{ l }/{ sin[ :{ 180 }/{ n } ] }', 'n' : 'n = :{ 180 }/{ asin[ :{ l }/{ D } ] }'}), // TODO: 180°
+              title: L.string('side_length'),
+              meanings: [L.string('side_length'), L.string('outer_circle_diameter'), L.string('corner_number')],
+              units: ['m', 'm', 'm'],),
           ])
     ],
   );
@@ -109,7 +151,7 @@ class MathFormulas {
     icon: FaIcon(FontAwesomeIcons.cube),
     data: [
     Item(
-        formula: Formula('V = a^3'),
+        formula: Formula2('V = a^3'),
         name: L.string('cube'),
         title: L.string('volume'),
         meanings: [
@@ -119,13 +161,13 @@ class MathFormulas {
         units: ['m³', 'm'],
         subItems: [
           Item(
-              formula: Formula('A_O = 6*l^2'),
+              formula: Formula2('A_O = 6 * l^2'),
               title: L.string('area'),
               meanings: [L.string('area'), L.string('side_length')],
               units: ['m²', 'm'],)
         ]),
     Item(
-        formula: Formula('V = l * b * h'),
+        formula: Formula2('V = l * b * h'),
         name: L.string('cuboid'),
         title: L.string('volume'),
         meanings: [
@@ -136,7 +178,7 @@ class MathFormulas {
         ],
         units: ['m³', 'm', 'm', 'm'],
         subItems: [
-          Item(formula: Formula('A_O = 2(l*b+l*h+b*h)'),
+          Item(formula: Formula2('A_O = 2 ( l * b + l * h + b * h )'),
               title: L.string('area'),
               meanings: [
                 L.string('area'),
@@ -147,7 +189,7 @@ class MathFormulas {
               units: ['m²', 'm', 'm', 'm'],)
         ]),
     Item(
-        formula: Formula('V = :{l * b * h}/{3}'),
+        formula: Formula2('V = :{ l * b * h }/{ 3 }'),
         name: L.string('pyramid'),
         title: L.string('volume'),
         meanings: [
@@ -159,7 +201,7 @@ class MathFormulas {
         units: ['m³', 'm', 'm', 'm'],
         subItems: [
           Item(
-              formula: Formula('l_1 = √{h_s^2+:{b^2}/{4}}'),
+              formula: Formula2('l_1 = √{ h_s^2 + :{ b^2 }/{ 4 } }'),
               subtitle: L.string('edgeLength'),
               meanings: [
                 L.string('edgeLength'),
@@ -168,7 +210,7 @@ class MathFormulas {
               ],
               units: ['m', 'm', 'm'],),
           Item(
-              formula: Formula('h_s = √{h^2+:{l^2}/{4}}'),
+              formula: Formula2('h_s = √{ h^2 + :{ l^2 }/{ 4 } }'),
               subtitle: L.string('mantleHeight'),
               meanings: [
                 L.string('mantleHeight'),
@@ -178,7 +220,7 @@ class MathFormulas {
               units: ['m', 'm', 'm'],)
         ]),
     Item(
-        formula: Formula('V = :{pi * d^2}/{4} * h'),
+        formula: Formula2('V = :{ pi * d^2 }/{ 4 } * h'),
         name: L.string('cylinder'),
         title: L.string('volume'),
         meanings: [
@@ -188,7 +230,7 @@ class MathFormulas {
         ],
         units: ['m³', 'm', 'm'],
         subItems: [
-          Item(formula: Formula('A_O = pi*d*h+2*:{pi*d^2}/{4}'),
+          Item(formula: Formula2('A_O = pi * d * h + 2 * :{ pi * d^2 }/{ 4 }'),
               title: L.string('area'),
               meanings: [
                 L.string('area'),
@@ -198,7 +240,7 @@ class MathFormulas {
               units: ['m²', 'm', 'm'],)
         ]),
     Item(
-        formula: Formula('V = :{h}/{3} * (A_1 + A_2 + √{A_1 * A_2})'),
+        formula: Formula2('V = :{ h }/{ 3 } * ( A_1 + A_2 + √{ A_1 * A_2 } )'),
         name: L.string('pyramid_truncated'),
         title: L.string('volume'),
         meanings: [
@@ -209,7 +251,7 @@ class MathFormulas {
         ],
         units: ['m³', 'm', 'm²', 'm²'],),
     Item(
-        formula: Formula('V = :{pi * d^2}/{4} * :{h}/{3}'),
+        formula: Formula2('V = :{ pi * d^2 }/{ 4 } * :{ h }/{ 3 }'),
         name: L.string('cone'),
         title: L.string('volume'),
         meanings: [
@@ -219,7 +261,7 @@ class MathFormulas {
         ],
         units: ['m³', 'm', 'm'],),
     Item(
-        formula: Formula('V = :{pi * h}/{12} * (D^2 + d^2 + D + d)'),
+        formula: Formula2('V = :{ pi * h }/{ 12 } * ( D^2 + d^2 + D + d )'),
         name: L.string('cone_truncated'),
         title: L.string('volume'),
         meanings: [
@@ -230,14 +272,14 @@ class MathFormulas {
         ],
         units: ['m³', 'm', 'm', 'm'],),
     Item(
-        formula: Formula('V = :{pi * d^3}/{6}'),
+        formula: Formula2('V = :{ pi * d^3 }/{ 6 }'),
         name: L.string('ball'),
         title: L.string('volume'),
         meanings: [L.string('volume2'), L.string('diameter')],
         units: ['m³', 'm'],
         subItems: [
           Item(
-              formula: Formula('A_O = pi * d^2'),
+              formula: Formula2('A_O = pi * d^2'),
               title: L.string('area'),
               meanings: [
                 L.string('area'),
@@ -254,22 +296,22 @@ class MathFormulas {
     color: Colors.blue,
     icon: FaIcon(FontAwesomeIcons.squareRootAlt),
     data: [
-    Item(formula: Formula('c=√{a^2+b^2}'),
+    Item(formula: Formula2('c = √{ a^2 + b^2 }'),
         name: L.string('pythagoras'),
         meanings: [ L.string('hypotenuse'), L.string('cathete'),  L.string('cathete')]),
-    Item(formula: Formula('h = √{p * q}'),
+    Item(formula: Formula2('h = √{ p * q }'),
         name: L.string('altitude_theorem'),
         meanings: [L.string('height'), L.string('section_of_base'), L.string('section_of_base')]),
-    Item(formula: Formula('sin[alpha] = :{O}/{H}'),
+    Item(formula: Formula2('sin[alpha] = :{ O }/{ H }'),
         name:  L.string('trigonometry'),
         title: L.string('sines'),
         meanings: [ L.string('angle'),  L.string('oppositeC'),  L.string('hypotenuse')],
         units: ['°', 'm', 'm'],
-        subItems: [Item(formula: Formula('cos[alpha] = :{A}/{H}'),
+        subItems: [Item(formula: Formula2('cos[alpha] = :{ A }/{ H }'),
           title: L.string('cosines'),
           meanings: [ L.string('angle'),  L.string('adjacentC'),  L.string('hypotenuse')],
           units: ['°', 'm', 'm'],),
-          Item(formula: Formula('tan[alpha] = :{O}/{A}'),
+          Item(formula: Formula2('tan[alpha] = :{ O }/{ A }'),
             title: L.string('tangents'),
             meanings: [ L.string('angle'),  L.string('oppositeC'),  L.string('adjacentC')],
             units: ['°', 'm', 'm'],),]),

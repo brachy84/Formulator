@@ -1,6 +1,7 @@
 <resources>
     <!-- <string name=""></string> -->
     <string name="app_name">All the Formulas</string>
+    <string name="name">Name</string>
     <string name="title">Title</string>
     <string name="subtitle">Subtitle</string>
     <string name="Lorem ">'Lorem ipsum</string>
@@ -33,6 +34,7 @@
     <string name="gotit">GOT IT</string>
     <string name="bsp">Examples:</string>
     <string name="converter">Converter</string>
+    <string name="formula">Formula</string>
     <string name="formulas">Formulas</string>
     <string name="mathSubtitle">Geometry, Pythagoras, Trigonometry, etc.</string>
     <string name="physicSubtitle">Motion, Forces, etc.</string>
@@ -61,6 +63,8 @@ The created Formula can be deleted or edited later.
 
 You can always replay this tutorial by pressing the 'i' in the top left corner.</string>
     <string name="changelog">Changelog</string>
+    <string name="continue">Continue</string>
+    <string name="back">Back</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -229,6 +233,7 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
     <string name="parallelogram">Parallelogram</string>
     <string name="trapez">Trapezoid</string>
     <string name="rhombus">Rhombus</string>
+    <string name="regular_polygons">regular Polygon</string>
 
     <!-- Bodys -->
     <string name="cube">Cube</string>
@@ -269,6 +274,20 @@ You can always replay this tutorial by pressing the 'i' in the top left corner.<
     <string name="cosines">Cosines</string>
     <string name="tangents">Tangents</string>
     <string name="section_of_base">section of the base</string>
+    <string name="arc_length">arc length</string>
+    <string name="center_angle">center angle</string>
+    <string name="spring_wire_length">spring wire length</string>
+    <string name="extended_length">extended length</string>
+    <string name="mean_coil_diameter">mean coil diameter</string>
+    <string name="resilient_coils">resilient coils</string>
+    <string name="average_length">average length</string>
+    <string name="short_length">short length</string>
+    <string name="long_length">long length</string>
+    <string name="corner_number">corner number</string>
+    <string name="inner_circle_diameter">inner circle diameter</string>
+    <string name="outer_circle_diameter">outer circle diameter</string>
+    <string name="newton">Newton</string>
+    <string name="kilonewton">Kilo Newton</string>
 
     <!-- Units -->
     <string name="rpm">rpm</string>

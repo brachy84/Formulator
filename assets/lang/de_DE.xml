@@ -1,6 +1,7 @@
 <resources>
     <!-- <string name=""> </string> -->
     <string name="app_name">Formelsammlung</string>
+    <string name="name">Name</string>
     <string name="title">Titel</string>
     <string name="subtitle">Untertitel</string>
     <string name="Lorem ">'Lorem ipsum</string>
@@ -29,6 +30,7 @@
     <string name="gotit">OK</string>
     <string name="bsp">Beispiele:</string>
     <string name="converter">Konvertierer</string>
+    <string name="formula">Formel</string>
     <string name="formulas">Formeln</string>
     <string name="mathSubtitle">Geometrie, Pythagoras, Trigonometrie, etc.</string>
     <string name="physicSubtitle">Bewegung, Kräfte, etc.</string>
@@ -36,6 +38,8 @@
     <string name="customSubtitle">Erstellen deine eigenen Formeln</string>
     <string name="myFormulas">Meine Formeln</string>
     <string name="changelog">Änderungsprotokoll</string>
+    <string name="continue">Weiter</string>
+    <string name="back">Zurück</string>
 
     <!-- Create Formula Page -->
     <string name="nameInfoTitle">Info zun Name</string>
@@ -228,6 +232,7 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
     <string name="parallelogram">Parallelogramm</string>
     <string name="trapez">Trapez</string>
     <string name="rhombus">Raute</string>
+    <string name="regular_polygons">Regelmäßige Vielecke</string>
 
     <!-- Bodys -->
     <string name="cube">Würfel</string>
@@ -241,7 +246,7 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
     <string name="cylinder">Zylinder</string>
 
     <!-- Variable Values -->
-    <string name="area">Oberfläche</string>
+    <string name="area">Fläche</string>
     <string name="side_length">Seitenlänge</string>
     <string name="side_width">Seitenbreite</string>
     <string name="length">Länge</string>
@@ -268,7 +273,28 @@ Du kannst das Tutorial jederzeit wieder abspielen indem du ganz oben rechts auf 
     <string name="cosines">Cosinus</string>
     <string name="tangents">Tangens</string>
     <string name="section_of_base">abschnitt der Grundseite</string>
-
+    <string name="arc_length">Bogenlänge</string>
+    <string name="center_angle">Mittelpunktswinkel</string>
+    <string name="spring_wire_length">Federdrahtlänge</string>
+    <string name="extended_length">gestreckte Länge</string>
+    <string name="mean_coil_diameter">mittlerer Windungsdurchmesser</string>
+    <string name="resilient_coils">federnde Windungen</string>
+    <string name="average_length">mittlere Länge</string>
+    <string name="short_length">kurze Länge</string>
+    <string name="long_length">lange Länge</string>
+    <string name="corner_number">Eckzahl</string>
+    <string name="inner_circle_diameter">Innenkreisdurchmesser</string>
+    <string name="outer_circle_diameter">Außenkreisdurchmesser</string>
+    <string name="turning">Drehen</string>
+    <string name="milling">Fräsen</string>
+    <string name="drilling">Bohren</string>
+    <string name="feed_rate">Vorschub</string>
+    <string name="cutting_speed">Schnittgeschwindigkeit</string>
+    <string name="feed_rate_blade">Vorschub je Schneide</string>
+    <string name="blade_number">Anzahl der Schneiden</string>
+    <string name="newton">Newton</string>
+    <string name="kilonewton">Kilo Newton</string>
+        
     <!-- Units -->
     <string name="rpm">U/min</string>
     <string name="rps">U/s</string>

@@ -11,22 +11,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'main.dart';
 
 class UnitConvertHome {
-
-  static Widget getHero(BuildContext context, SmartUnitConvertCard widget, {Color color, Color iconColor = Colors.black}) {
+  static Widget getHero(BuildContext context, SmartUnitConvertCard widget,
+      {Color color, Color iconColor = Colors.black}) {
     return Hero(
         tag: widget.langName,
         child: getCardTemplate(
           context,
           widget.langName,
-          icon: FaIcon(widget.icon,
-              color: iconColor),
+          icon: FaIcon(widget.icon, color: iconColor),
           color: color,
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => widget));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => widget));
           },
-        )
-    );
+        ));
   }
 
   static Widget getUnitConvertHome(BuildContext context) {
@@ -44,8 +42,7 @@ class UnitConvertHome {
                     MaterialPageRoute(
                         builder: (context) => LengthSurfaceVolume()));
               },
-            )
-        ),
+            )),
         getHero(context, speed, color: Colors.lightGreen[400]),
         getHero(context, weights, color: Colors.lightBlue[400]),
         getHero(context, temperatures, color: Colors.yellow[400]),
@@ -60,20 +57,18 @@ class UnitConvertHome {
               context,
               'currencies',
               color: Colors.blueGrey[400],
-              icon: FaIcon(FontAwesomeIcons.moneyBillWave, color: Colors.black,),
+              icon: FaIcon(
+                FontAwesomeIcons.moneyBillWave,
+                color: Colors.black,
+              ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Currencies()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Currencies()));
               },
-            )
-        ),
+            )),
       ],
     );
   }
-
-
 }
 
 String getTextString(double value, {int limit = 6}) {
@@ -84,15 +79,21 @@ String getTextString(double value, {int limit = 6}) {
 }
 
 class SmartUnitConvertCard extends StatefulWidget {
-
   String langName;
-  Map<List<String>, double> values; /// {[lang, symbol] : factor}
-  Function(int id, String name, String value, double factor, List<TextEditingController> controller) updateText;
+  Map<List<String>, double> values;
+
+  /// {[lang, symbol] : factor}
+  Function(int id, String name, String value, double factor,
+      List<TextEditingController> controller) updateText;
   IconData icon;
 
   List<TextEditingController> _controller = [];
 
-  SmartUnitConvertCard({@required this.langName, @required this.values, this.updateText, this.icon}) {
+  SmartUnitConvertCard(
+      {@required this.langName,
+      @required this.values,
+      this.updateText,
+      this.icon}) {
     values.forEach((key, factor) {
       _controller.add(TextEditingController());
     });
@@ -103,10 +104,7 @@ class SmartUnitConvertCard extends StatefulWidget {
 }
 
 class _SmartUnitConvertCardState extends State<SmartUnitConvertCard> {
-
-  _SmartUnitConvertCardState() {
-
-  }
+  _SmartUnitConvertCardState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -143,24 +141,30 @@ class _SmartUnitConvertCardState extends State<SmartUnitConvertCard> {
     List<Widget> widgets = [];
     int i = 0;
     widget.values.forEach((key, factor) {
-      widgets.add(getTextField(i, context, L.string(key[0]), key[1], factor, widget._controller[i]));
+      widgets.add(getTextField(
+          i, context, L.string(key[0]), key[1], factor, widget._controller[i]));
       i++;
     });
     return widgets;
   }
 
   void updateTextFiels(int id, String name, String value, double factor) {
-    if(widget.updateText != null)
-      setState(() {widget.updateText(id, name, value, factor, widget._controller);});
+    if (widget.updateText != null)
+      setState(() {
+        widget.updateText(id, name, value, factor, widget._controller);
+      });
     else {
-      double number = factor > 0 ? double.parse(value) * factor : double.parse(value) / (factor * -1);
+      double number = factor > 0
+          ? double.parse(value) * factor
+          : double.parse(value) / (factor * -1);
       if (value == ' ' || value == null) number = 0.0;
 
       int i = 0;
       setState(() {
         widget.values.forEach((key, factor2) {
-          if(id != i) {
-            widget._controller[i].text =  getTextString(factor2 > 0 ? (number / factor2) : (number * (factor2 * -1)));
+          if (id != i) {
+            widget._controller[i].text = getTextString(
+                factor2 > 0 ? (number / factor2) : (number * (factor2 * -1)));
           }
           i++;
         });
@@ -168,7 +172,9 @@ class _SmartUnitConvertCardState extends State<SmartUnitConvertCard> {
     }
   }
 
-  Widget getTextField(int id, BuildContext context, String locName, String shortName, double factor, TextEditingController controller, {IconData icon}) {
+  Widget getTextField(int id, BuildContext context, String locName,
+      String shortName, double factor, TextEditingController controller,
+      {IconData icon}) {
     icon ??= widget.icon;
     return Container(
       constraints: BoxConstraints(maxHeight: 56),
@@ -216,7 +222,7 @@ class UnitConvertCard {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               //decoration: BoxDecoration(
-              color:appliedTheme.canvasColor,
+              color: appliedTheme.canvasColor,
               //borderRadius: BorderRadius.circular(16)
               margin: EdgeInsets.all(12),
               child: Builder(
@@ -234,7 +240,8 @@ class UnitConvertCard {
     value == '' ? number = 0.0 : number = double.parse(value) * factor;
   }
 
-  Widget getTextField(int id, BuildContext context, String locName, String shortName, double factor, TextEditingController controller) {
+  Widget getTextField(int id, BuildContext context, String locName,
+      String shortName, double factor, TextEditingController controller) {
     return Container(
       constraints: BoxConstraints(maxHeight: 56),
       margin: EdgeInsets.only(left: 8, right: 8),
@@ -254,7 +261,8 @@ class UnitConvertCard {
   }
 }
 
-Widget getCardTemplate(BuildContext context, String name, {VoidCallback onPressed, Widget icon, Color color = Colors.white}) {
+Widget getCardTemplate(BuildContext context, String name,
+    {VoidCallback onPressed, Widget icon, Color color = Colors.white}) {
   icon ??= FaIcon(FontAwesomeIcons.shapes, color: Colors.black);
 
   return Card(
@@ -292,7 +300,8 @@ class LengthSurfaceVolume extends StatefulWidget {
   _LengthSurfaceVolumeState createState() => _LengthSurfaceVolumeState();
 }
 
-class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume> implements UnitConvertCard {
+class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume>
+    implements UnitConvertCard {
   var _meterController = TextEditingController();
   var _kiloMController = TextEditingController();
   var _centiMController = TextEditingController();
@@ -392,7 +401,10 @@ class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume> implements Un
                           selectedBorderColor: appliedTheme.accentColor,
                           splashColor: Colors.blueAccent,
                           borderRadius: BorderRadius.circular(12),
-                          selectedColor: appliedTheme.brightness == Brightness.dark ? Colors.white : Colors.black,
+                          selectedColor:
+                              appliedTheme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
                           fillColor: appliedTheme.accentColor.withAlpha(50),
                           children: [
                             Row(
@@ -430,14 +442,32 @@ class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume> implements Un
                         ),
                       ),
                     ),
-                    getTextField(0, context, locStrings[dim][1], 'km', getPow(1000.0, dim + 1), _kiloMController, nameExp: true),
-                    getTextField(1, context, locStrings[dim][0], 'm', getPow(1.0, dim + 1), _meterController, nameExp: true),
-                    getTextField(2, context, locStrings[dim][2], 'cm', getPow(0.01, dim + 1), _centiMController, nameExp: true),
-                    getTextField(3, context, locStrings[dim][3], 'mm', getPow(0.001, dim + 1), _milliMController, nameExp: true),
-                    getTextField(4, context, locStrings[dim][4], 'inch', getPow(0.0254, dim + 1), _inchController, nameExp: true),
-                    getTextField(5, context, locStrings[dim][5], 'mile', getPow(1609.34, dim + 1), _mileController, nameExp: true),
-                    getTextField(6, context, L.string('hectar'), 'ha', getPow(10000, dim + 1), _hektarController, requirement: 1, iconData: FontAwesomeIcons.rulerCombined),
-                    getTextField(7, context, L.string('liter'), 'l', getPow(0.1, dim + 1), _literController, requirement: 2, iconData: FontAwesomeIcons.prescriptionBottle)
+                    getTextField(0, context, locStrings[dim][1], 'km',
+                        getPow(1000.0, dim + 1), _kiloMController,
+                        nameExp: true),
+                    getTextField(1, context, locStrings[dim][0], 'm',
+                        getPow(1.0, dim + 1), _meterController,
+                        nameExp: true),
+                    getTextField(2, context, locStrings[dim][2], 'cm',
+                        getPow(0.01, dim + 1), _centiMController,
+                        nameExp: true),
+                    getTextField(3, context, locStrings[dim][3], 'mm',
+                        getPow(0.001, dim + 1), _milliMController,
+                        nameExp: true),
+                    getTextField(4, context, locStrings[dim][4], 'inch',
+                        getPow(0.0254, dim + 1), _inchController,
+                        nameExp: true),
+                    getTextField(5, context, locStrings[dim][5], 'mile',
+                        getPow(1609.34, dim + 1), _mileController,
+                        nameExp: true),
+                    getTextField(6, context, L.string('hectar'), 'ha',
+                        getPow(10000, dim + 1), _hektarController,
+                        requirement: 1,
+                        iconData: FontAwesomeIcons.rulerCombined),
+                    getTextField(7, context, L.string('liter'), 'l',
+                        getPow(0.1, dim + 1), _literController,
+                        requirement: 2,
+                        iconData: FontAwesomeIcons.prescriptionBottle)
                   ],
                 ),
               )),
@@ -589,113 +619,111 @@ class _LengthSurfaceVolumeState extends State<LengthSurfaceVolume> implements Un
 var speed = SmartUnitConvertCard(
     langName: 'speed',
     values: {
-      ['kmh', 'km/h'] : 1,
-      ['ms', 'm/s'] : 3.6,
-      ['mileh', 'mile/h'] : 1.60934,
-      ['foots', 'foot/s'] : 1.09728
+      ['kmh', 'km/h']: 1,
+      ['ms', 'm/s']: 3.6,
+      ['mileh', 'mile/h']: 1.60934,
+      ['foots', 'foot/s']: 1.09728
     },
-    icon: FontAwesomeIcons.tachometerAlt
-);
+    icon: FontAwesomeIcons.tachometerAlt);
 
 /// Page 3
 /// Weights
 var weights = SmartUnitConvertCard(
     langName: 'weight',
     values: {
-      ['tonne', 't'] : 1000000,
-      ['kiloG', 'kg'] : 1000,
-      ['gramm', 'g'] : 1,
-      ['milliG', 'mg'] : 0.001,
-      ['pound', 'lb'] : 453.592,
-      ['ounce', 'oz'] : 28.3495,
+      ['tonne', 't']: 1000000,
+      ['kiloG', 'kg']: 1000,
+      ['gramm', 'g']: 1,
+      ['milliG', 'mg']: 0.001,
+      ['pound', 'lb']: 453.592,
+      ['ounce', 'oz']: 28.3495,
     },
-    icon: FontAwesomeIcons.weightHanging
-);
+    icon: FontAwesomeIcons.weightHanging);
 
 /// Page 4
 /// Temperatures
 var temperatures = SmartUnitConvertCard(
-    langName: 'temperature',
-    values: {
-      ['celsius', '°C'] : 1,
-      ['fahrenheit', '°F'] : 1,
-      ['kelvin', 'K'] : 1
-    },
-    icon: FontAwesomeIcons.thermometerHalf,
-    updateText: (id, locName, value, factor, controller) {
-      double number = double.parse(value) * factor;
-      value == '' ? number = 0.0 : number = double.parse(value) * factor;
+  langName: 'temperature',
+  values: {
+    ['celsius', '°C']: 1,
+    ['fahrenheit', '°F']: 1,
+    ['kelvin', 'K']: 1
+  },
+  icon: FontAwesomeIcons.thermometerHalf,
+  updateText: (id, locName, value, factor, controller) {
+    double number = double.parse(value) * factor;
+    value == '' ? number = 0.0 : number = double.parse(value) * factor;
 
-      double celsius;
-      double fahrenheit;
-      double kelvin;
+    double celsius;
+    double fahrenheit;
+    double kelvin;
 
-      if (id == 0) {
-        celsius = 0;
-        fahrenheit = number * 1.8 + 32;
-        kelvin = number + 273.15;
-      } else if (id == 1) {
-        celsius = (number - 32) * 5.0 / 9.0;
-        fahrenheit = 0;
-        kelvin = (number + 459.67) * 5.0 / 9.0;
-      } else {
-        celsius = number - 273.15;
-        fahrenheit = number * 1.8 - 459.67;
-        kelvin = 0;
-      }
-      id == 0 ? null : controller[0].text = getTextString(celsius);
-      id == 1 ? null : controller[1].text = getTextString(fahrenheit);
-      id == 2 ? null : controller[2].text = getTextString(kelvin);
-    },
- );
+    if (id == 0) {
+      celsius = 0;
+      fahrenheit = number * 1.8 + 32;
+      kelvin = number + 273.15;
+    } else if (id == 1) {
+      celsius = (number - 32) * 5.0 / 9.0;
+      fahrenheit = 0;
+      kelvin = (number + 459.67) * 5.0 / 9.0;
+    } else {
+      celsius = number - 273.15;
+      fahrenheit = number * 1.8 - 459.67;
+      kelvin = 0;
+    }
+    id == 0 ? null : controller[0].text = getTextString(celsius);
+    id == 1 ? null : controller[1].text = getTextString(fahrenheit);
+    id == 2 ? null : controller[2].text = getTextString(kelvin);
+  },
+);
 
 /// Page 5
 /// Time
 var time = SmartUnitConvertCard(
     langName: 'time',
     values: {
-      ['year', 'a'] : 365.2422,
-      ['month', 'a/12'] : 365.2422 / 12,
-      ['week', '7d'] : 7,
-      ['day', 'd'] : 1,
-      ['hour', 'h'] : -24,
-      ['minute', 'min'] : -1440,
-      ['second', 's'] : -86400
+      ['year', 'a']: 365.2422,
+      ['month', 'a/12']: 365.2422 / 12,
+      ['week', '7d']: 7,
+      ['day', 'd']: 1,
+      ['hour', 'h']: -24,
+      ['minute', 'min']: -1440,
+      ['second', 's']: -86400
     },
-    icon: FontAwesomeIcons.clock
-);
+    icon: FontAwesomeIcons.clock);
 
 /// Page 6
 /// Angle
 var angle = SmartUnitConvertCard(
-    langName: 'angle',
-    values: {
-      ['degree', '°'] : 1,
-      ['gon', 'gon'] : 0.9,
-      ['minute', 'min'] : -60,
-      ['second', 's'] : -3600,
-      ['radiant', 'rad'] : 1,
-    },
-    icon: FontAwesomeIcons.draftingCompass,
-    updateText: (int id, String name, String value, double factor, List<TextEditingController> controller) {
-      double toRadiant(double value) => value * (pi / 180);
-      double fromRadiant(double value) => value * (180 / pi);
+  langName: 'angle',
+  values: {
+    ['degree', '°']: 1,
+    ['gon', 'gon']: 0.9,
+    ['minute', 'min']: -60,
+    ['second', 's']: -3600,
+    ['radiant', 'rad']: 1,
+  },
+  icon: FontAwesomeIcons.draftingCompass,
+  updateText: (int id, String name, String value, double factor,
+      List<TextEditingController> controller) {
+    double toRadiant(double value) => value * (pi / 180);
+    double fromRadiant(double value) => value * (180 / pi);
 
-      double number;
-      factor > 0
-          ? number = double.parse(value) * factor
-          : number = double.parse(value) / (factor * -1);
-      if (value == ' ' || value == null) number = 0.0;
+    double number;
+    factor > 0
+        ? number = double.parse(value) * factor
+        : number = double.parse(value) / (factor * -1);
+    if (value == ' ' || value == null) number = 0.0;
 
-      if (id == 3) number = fromRadiant(number);
-      print(number);
+    if (id == 3) number = fromRadiant(number);
+    print(number);
 
-        id == 0 ? null : controller[0].text = getTextString(number * 1);
-        id == 1 ? null : controller[1].text = getTextString(number / 0.9);
-        id == 2 ? null : controller[2].text = getTextString(number * 60);
-        id == 3 ? null : controller[3].text = getTextString(number * 3600);
-        id == 4 ? null : controller[4].text = getTextString(toRadiant(number * 1));
-    },
+    id == 0 ? null : controller[0].text = getTextString(number * 1);
+    id == 1 ? null : controller[1].text = getTextString(number / 0.9);
+    id == 2 ? null : controller[2].text = getTextString(number * 60);
+    id == 3 ? null : controller[3].text = getTextString(number * 3600);
+    id == 4 ? null : controller[4].text = getTextString(toRadiant(number * 1));
+  },
 );
 
 /// Page 7
@@ -703,46 +731,43 @@ var angle = SmartUnitConvertCard(
 var pressure = SmartUnitConvertCard(
     langName: 'pressure',
     values: {
-      ['bar', 'bar'] : 1,
-      ['pascal', 'Pa'] : -100000,
-      ['n/mm²', 'N/mm²'] : 10,
-      ['n/cm²', 'N/cm²'] : -10,
-      ['n/m²', 'N/m²'] : -100000,
+      ['bar', 'bar']: 1,
+      ['pascal', 'Pa']: -100000,
+      ['n/mm²', 'N/mm²']: 10,
+      ['n/cm²', 'N/cm²']: -10,
+      ['n/m²', 'N/m²']: -100000,
     },
-    icon: FontAwesomeIcons.compressArrowsAlt
-);
+    icon: FontAwesomeIcons.compressArrowsAlt);
 
 /// Page 9
 /// Data
 var data = SmartUnitConvertCard(
     langName: 'data',
     values: {
-      ['bit', 'Bit'] : -1000000,
-      ['kilobit', 'Kbit'] : -1000,
-      ['megabit', 'Mbit'] : 1,
-      ['gigabit', 'Gbit'] : 1000,
-      ['terrabit', 'Tbit'] : 1000000,
-      ['petabit', 'Pbit'] : 1000000000,
-      ['byte', 'b'] : -125000,
-      ['kilobyte', 'Kb'] : -125,
-      ['megabyte', 'Mb'] : 8,
-      ['gigabyte', 'Gb'] : 8000,
-      ['terrabyte', 'Tb'] : 8000000,
-      ['petabyte', 'Pb'] : 8000000000,
+      ['bit', 'Bit']: -1000000,
+      ['kilobit', 'Kbit']: -1000,
+      ['megabit', 'Mbit']: 1,
+      ['gigabit', 'Gbit']: 1000,
+      ['terrabit', 'Tbit']: 1000000,
+      ['petabit', 'Pbit']: 1000000000,
+      ['byte', 'b']: -125000,
+      ['kilobyte', 'Kb']: -125,
+      ['megabyte', 'Mb']: 8,
+      ['gigabyte', 'Gb']: 8000,
+      ['terrabyte', 'Tb']: 8000000,
+      ['petabyte', 'Pb']: 8000000000,
     },
-    icon: FontAwesomeIcons.database
-);
+    icon: FontAwesomeIcons.database);
 
 /// Page 10
 /// Forces
 var forces = SmartUnitConvertCard(
     langName: 'forces',
     values: {
-      ['newton', 'N'] : 1,
-      ['kilonewton', 'kN'] : 1000,
+      ['newton', 'N']: 1,
+      ['kilonewton', 'kN']: 1000,
     },
-    icon: FontAwesomeIcons.compressArrowsAlt
-);
+    icon: FontAwesomeIcons.compressArrowsAlt);
 
 /// Page 11
 /// currencies
@@ -752,10 +777,10 @@ class Currencies extends StatefulWidget {
 }
 
 class _CurrenciesState extends State<Currencies> {
-
   String exchangeCurrency1 = 'EUR';
   double exchangeValue1;
-  TextEditingController _currency1Controller = TextEditingController(text: '1.0');
+  TextEditingController _currency1Controller =
+      TextEditingController(text: '1.0');
   String exchangeCurrency2 = 'USD';
   double exchangeValue2;
   String currency2Text = '';
@@ -765,7 +790,7 @@ class _CurrenciesState extends State<Currencies> {
   @override
   void initState() {
     super.initState();
-    if(hasInternetConnection) {
+    if (hasInternetConnection) {
       currencyList = WebData.exchangeRates.keys.map((e) {
         return DropdownMenuItem(
           value: e,
@@ -781,7 +806,6 @@ class _CurrenciesState extends State<Currencies> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(L.string('currencies')),
@@ -800,134 +824,136 @@ class _CurrenciesState extends State<Currencies> {
               color: appliedTheme.canvasColor,
               margin: EdgeInsets.all(12),
               child: Builder(
-                builder: (BuildContext context) => hasInternetConnection ? Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 4),
-                      child: Text(L.string('rate_update'), style: TextStyle(fontSize: 12),),
-                    ),
-                    Text(L.string('rate_from') + ': ${WebData.date}'),
-                    Padding(padding: EdgeInsets.only(bottom: 16)),
-                    DropdownButton<String>(
-                      value: exchangeCurrency1,
-                      icon: Icon(Icons.arrow_drop_down),
-                      items: currencyList,
-                      onChanged: (val) {
-                        setState(() {
-                          exchangeCurrency1 = val;
-                          exchangeValue1 = WebData.exchangeRates[exchangeCurrency1];
-                          calculateValues(_currency1Controller.text);
-                        });
-                      },
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 32, right: 32, bottom: 8),
-                      constraints: BoxConstraints(
-                        minWidth: double.infinity,
-                        maxHeight: 40,
-                        minHeight: 30
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1
-                        ),
-                        borderRadius: BorderRadius.circular(8)
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 8),
-                          child: TextField(
-                            controller: _currency1Controller,
-                            keyboardType: TextInputType.numberWithOptions(decimal: true),
-                            textAlign: TextAlign.center,
-                            //textAlignVertical: TextAlignVertical(y: -1),
-                            onChanged: (val) {
-                              setState(() => calculateValues(val));
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.unfold_more, size: 32),
-                      onPressed: () {
-                        setState(() {
-                          String temp = exchangeCurrency1;
-                          exchangeCurrency1 = exchangeCurrency2;
-                          exchangeCurrency2 = temp;
-                          calculateValues(_currency1Controller.text);
-                        });
-                      },
-                    ),
-                    DropdownButton<String>(
-                      value: exchangeCurrency2,
-                      icon: Icon(Icons.arrow_drop_down),
-                      items: currencyList,
-                      onChanged: (val) {
-                        setState(() {
-                          exchangeCurrency2 = val;
-                          exchangeValue2 = WebData.exchangeRates[exchangeCurrency2];
-                          calculateValues(_currency1Controller.text);
-                        });
-                      },
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 0, left: 32, right: 32),
-                      constraints: BoxConstraints(
-                        minWidth: double.infinity,
-                        maxHeight: 40,
-                        minHeight: 30
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1
-                        ),
-                        borderRadius: BorderRadius.circular(8)
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 8),
-                          child: Text(
-                            currency2Text,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      )
-                    ),
-                  ],
-                ) : Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(16),
-                      constraints: BoxConstraints(
-                        //maxWidth: screenSize.width-64,
-                        //minHeight: 30
-                      ),
-                      child: Row(
+                builder: (BuildContext context) => hasInternetConnection
+                    ? Column(
                         children: [
-                          Icon(Icons.warning, color: Colors.red),
                           Container(
-                            margin: EdgeInsets.only(left: 8, right: 8),
-                            child: Text(L.string('E:no_internet'), style: TextStyle(fontSize: 16),),
-                            constraints: BoxConstraints(
-                                maxWidth: screenSize.width-128,
-                                minHeight: 30
+                            margin: EdgeInsets.only(
+                                left: 8, right: 8, top: 8, bottom: 4),
+                            child: Text(
+                              L.string('rate_update'),
+                              style: TextStyle(fontSize: 12),
                             ),
                           ),
-                          Icon(Icons.warning, color: Colors.red),
+                          Text(L.string('rate_from') + ': ${WebData.date}'),
+                          Padding(padding: EdgeInsets.only(bottom: 16)),
+                          DropdownButton<String>(
+                            value: exchangeCurrency1,
+                            icon: Icon(Icons.arrow_drop_down),
+                            items: currencyList,
+                            onChanged: (val) {
+                              setState(() {
+                                exchangeCurrency1 = val;
+                                exchangeValue1 =
+                                    WebData.exchangeRates[exchangeCurrency1];
+                                calculateValues(_currency1Controller.text);
+                              });
+                            },
+                          ),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                            constraints: BoxConstraints(
+                                minWidth: double.infinity,
+                                maxHeight: 40,
+                                minHeight: 30),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 1),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: TextField(
+                                  controller: _currency1Controller,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true),
+                                  textAlign: TextAlign.center,
+                                  //textAlignVertical: TextAlignVertical(y: -1),
+                                  onChanged: (val) {
+                                    setState(() => calculateValues(val));
+                                  },
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.unfold_more, size: 32),
+                            onPressed: () {
+                              setState(() {
+                                String temp = exchangeCurrency1;
+                                exchangeCurrency1 = exchangeCurrency2;
+                                exchangeCurrency2 = temp;
+                                calculateValues(_currency1Controller.text);
+                              });
+                            },
+                          ),
+                          DropdownButton<String>(
+                            value: exchangeCurrency2,
+                            icon: Icon(Icons.arrow_drop_down),
+                            items: currencyList,
+                            onChanged: (val) {
+                              setState(() {
+                                exchangeCurrency2 = val;
+                                exchangeValue2 =
+                                    WebData.exchangeRates[exchangeCurrency2];
+                                calculateValues(_currency1Controller.text);
+                              });
+                            },
+                          ),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(top: 0, left: 32, right: 32),
+                              constraints: BoxConstraints(
+                                  minWidth: double.infinity,
+                                  maxHeight: 40,
+                                  minHeight: 30),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    currency2Text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              )),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(16),
+                            constraints: BoxConstraints(
+                                //maxWidth: screenSize.width-64,
+                                //minHeight: 30
+                                ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.warning, color: Colors.red),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8, right: 8),
+                                  child: Text(
+                                    L.string('E:no_internet'),
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  constraints: BoxConstraints(
+                                      maxWidth: screenSize.width - 128,
+                                      minHeight: 30),
+                                ),
+                                Icon(Icons.warning, color: Colors.red),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              )
-          ),
+              )),
         ),
       ),
     );
@@ -936,8 +962,9 @@ class _CurrenciesState extends State<Currencies> {
   void calculateValues(String value) {
     double val1 = double.parse(value);
     // Change to EUR and then to choosen currency
-    if(hasInternetConnection) {
-      val1 *= WebData.exchangeRates['EUR'] / WebData.exchangeRates[exchangeCurrency1];
+    if (hasInternetConnection) {
+      val1 *= WebData.exchangeRates['EUR'] /
+          WebData.exchangeRates[exchangeCurrency1];
 
       val1 *= WebData.exchangeRates[exchangeCurrency2];
     } else {

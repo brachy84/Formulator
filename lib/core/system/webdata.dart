@@ -1,21 +1,19 @@
 import 'dart:io';
 
 import 'package:all_the_formulars/constants.dart';
-import 'package:all_the_formulars/core/system/storage.dart';
 import 'package:http/http.dart' as http;
 
 // http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
 class WebData {
-
-  static Map<String, double> exchangeRates = {'EUR' : 1.0};
+  static Map<String, double> exchangeRates = {'EUR': 1.0};
   static String date = '';
 
   static Future<http.Response> fetchData(String url) async {
-    if(await hasInternet()) {
+    if (await hasInternet()) {
       hasInternetConnection = true;
       final response = await http.get(url);
 
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         //print('Printing webdata...');
         //print(response.body);
         return response;
@@ -27,30 +25,37 @@ class WebData {
   }
 
   static initCurrencyExchange() async {
-    http.Response response;
-    try {
-      response = await fetchData('http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
-    } catch (Exception) {
-      return;
+    if (date == '') {
+      http.Response response;
+      try {
+        response = await fetchData(
+            'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
+      } catch (Exception) {
+        return;
+      }
+
+      String rawXml = response.body;
+
+      int timeIndex = rawXml.indexOf('time=') + 6;
+      date = rawXml.substring(timeIndex, timeIndex + 10);
+
+      // creates a list of currencies like 'currency='USD' rate='1.2281'/>'
+      List<String> currencies = rawXml
+          .split('<Cube ')
+          .where((element) => element.startsWith('currency='))
+          .toList();
+
+      currencies.forEach((currency) {
+        int start = currency.indexOf('=') + 2;
+        String curr = currency.substring(start, start + 3);
+        String val = currency.substring(
+            currency.lastIndexOf('=') + 2, currency.lastIndexOf('\''));
+        exchangeRates[curr] = double.parse(val);
+      });
+
+      print('Exchange rate map from the $date:');
+      print('  $exchangeRates');
     }
-
-    String rawXml = response.body;
-
-    int timeIndex = rawXml.indexOf('time=') + 6;
-    date = rawXml.substring(timeIndex, timeIndex + 10);
-
-    // creates a list of currencies like 'currency='USD' rate='1.2281'/>'
-    List<String> currencies = rawXml.split('<Cube ').where((element) => element.startsWith('currency=')).toList();
-
-    currencies.forEach((currency) {
-      int start = currency.indexOf('=') + 2;
-      String curr = currency.substring(start, start + 3);
-      String val = currency.substring(currency.lastIndexOf('=') + 2, currency.lastIndexOf('\''));
-      exchangeRates[curr] = double.parse(val);
-    });
-
-    print('Exchange rate map from the $date:');
-    print('  $exchangeRates');
   }
 
   static Future<bool> hasInternet() async {
@@ -66,4 +71,3 @@ class WebData {
     }
   }
 }
-
