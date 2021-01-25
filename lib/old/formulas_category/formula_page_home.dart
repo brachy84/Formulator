@@ -1,10 +1,10 @@
-import 'package:all_the_formulars/constants.dart';
-import 'package:all_the_formulars/core/formula/formula2.dart';
-import 'package:all_the_formulars/core/system/storage.dart';
-import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/core/widgets/widgets.dart';
-import 'package:all_the_formulars/formulas_category/physik_formulas.dart';
-import 'package:all_the_formulars/main.dart';
+import 'package:all_the_formulars/old/constants.dart';
+import 'package:all_the_formulars/old/core/formula/formula2.dart';
+import 'package:all_the_formulars/old/core/system/storage.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/old/core/widgets/widgets.dart';
+import 'package:all_the_formulars/old/formulas_category/physik_formulas.dart';
+import 'package:all_the_formulars/old/main.dart';
 import 'package:catex/catex.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

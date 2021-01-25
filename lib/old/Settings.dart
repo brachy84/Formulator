@@ -1,6 +1,6 @@
-import 'package:all_the_formulars/core/themes.dart';
-import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/main.dart';
+import 'package:all_the_formulars/old/core/themes.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/old/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

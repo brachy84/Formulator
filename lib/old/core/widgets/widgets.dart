@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:all_the_formulars/core/formula/formula2.dart';
-import 'package:all_the_formulars/core/formula/units.dart';
-import 'package:all_the_formulars/core/themes.dart';
-import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/formulas_category/formula_page_home.dart';
+import 'package:all_the_formulars/old/core/formula/formula2.dart';
+import 'package:all_the_formulars/old/core/formula/units.dart';
+import 'package:all_the_formulars/old/core/themes.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/old/formulas_category/formula_page_home.dart';
 import 'package:catex/catex.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

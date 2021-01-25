@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:all_the_formulars/constants.dart';
+import 'package:all_the_formulars/old/constants.dart';
 
 class Utils {
   static double dp(double val, int places) {

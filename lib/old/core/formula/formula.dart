@@ -1,8 +1,6 @@
-
-import 'package:all_the_formulars/core/utils.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
 
 class Formula {
-
   String raw;
   List<String> values;
   List<String> vars;
@@ -13,7 +11,7 @@ class Formula {
 
     vars = values.where((val) => Utils.isNumeric(val)).toList();
 
-    if(changedFormulas == null) {
+    if (changedFormulas == null) {
       vars.forEach((variable) {
         changedFormulas[variable] = changeTo(variable);
       });
@@ -24,19 +22,13 @@ class Formula {
   String get(String result) => changedFormulas[result];
 
   /// changes the Formula to the given Value
-  String changeTo(String result) {
-
-  }
+  String changeTo(String result) {}
 
   /// Calculates a result with given values for each variable
   double calculateWith(Map<String, double> nums) {
-    if(nums.length < vars.length)
-      throw Exception('Not enough values');
-
+    if (nums.length < vars.length) throw Exception('Not enough values');
   }
 
   /// Returns the Formula as a CaTeX string
-  String toCaTeX() {
-
-  }
+  String toCaTeX() {}
 }

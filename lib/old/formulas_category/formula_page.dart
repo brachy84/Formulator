@@ -1,5 +1,5 @@
-import 'package:all_the_formulars/core/widgets/widgets.dart';
-import 'package:all_the_formulars/main.dart';
+import 'package:all_the_formulars/old/core/widgets/widgets.dart';
+import 'package:all_the_formulars/old/main.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

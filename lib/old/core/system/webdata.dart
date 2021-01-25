@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:all_the_formulars/constants.dart';
+import 'package:all_the_formulars/old/constants.dart';
 import 'package:http/http.dart' as http;
 
 // http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml

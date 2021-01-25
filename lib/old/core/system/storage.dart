@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/formulas_category/formula_page_home.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/old/formulas_category/formula_page_home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';

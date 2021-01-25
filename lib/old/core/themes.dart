@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:all_the_formulars/Settings.dart';
-import 'package:all_the_formulars/core/utils.dart';
-import 'package:all_the_formulars/main.dart';
+import 'package:all_the_formulars/old/Settings.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/old/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';

@@ -1,4 +1,4 @@
-import 'package:all_the_formulars/core/formula/formula2.dart';
+import 'package:all_the_formulars/old/core/formula/formula2.dart';
 import 'package:catex/catex.dart';
 import 'package:flutter/material.dart';
 

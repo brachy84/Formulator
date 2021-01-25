@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:all_the_formulars/core/utils.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'formula2.dart';

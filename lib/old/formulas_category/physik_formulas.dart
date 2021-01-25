@@ -1,5 +1,5 @@
-import 'package:all_the_formulars/core/formula/formula2.dart';
-import 'package:all_the_formulars/main.dart';
+import 'package:all_the_formulars/old/core/formula/formula2.dart';
+import 'package:all_the_formulars/old/main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

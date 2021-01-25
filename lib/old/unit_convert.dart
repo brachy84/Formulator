@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:all_the_formulars/constants.dart';
-import 'package:all_the_formulars/core/system/webdata.dart';
-import 'package:all_the_formulars/core/utils.dart';
+import 'package:all_the_formulars/old/constants.dart';
+import 'package:all_the_formulars/old/core/system/webdata.dart';
+import 'package:all_the_formulars/old/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
