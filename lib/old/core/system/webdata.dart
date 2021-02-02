@@ -64,6 +64,8 @@ class WebData {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('Connected to Internet');
         return true;
+      } else {
+        return false;
       }
     } on SocketException catch (_) {
       print('No Internet connection!');
