@@ -1,6 +1,8 @@
 import 'package:all_the_formulars/buisness_logic/conversion_bloc.dart';
+import 'package:all_the_formulars/buisness_logic/currency_bloc.dart';
+import 'package:all_the_formulars/data/currency_data.dart';
 import 'package:all_the_formulars/data/localization.dart';
-import 'package:all_the_formulars/old/core/utils.dart';
+import 'package:all_the_formulars/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -106,8 +108,6 @@ class UnitTextField extends StatelessWidget {
                     print('OnChnaged of $short');
                     BlocProvider.of<ConversionBloc>(context).add(ChangedEvent(
                         unit: unit, value: double.parse(val), fromUnit: short));
-                    //context.read()<ConversionBloc>().add(ChangedEvent(
-                    //    unit: unit, value: double.parse(val), fromUnit: name));
                   },
                   onTap: () {
                     _controller.selection = TextSelection(
@@ -119,7 +119,7 @@ class UnitTextField extends StatelessWidget {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                           gapPadding: 2),
-                      labelText: short),
+                      labelText: L.conversion.get(name)),
                 );
               },
             ),
@@ -127,8 +127,157 @@ class UnitTextField extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 8),
           ),
-          Expanded(child: Text(L.conversion.get(name)))
+          Expanded(child: Text(short))
         ],
+      ),
+    );
+  }
+}
+
+class CurrencyConversionScreen extends StatelessWidget {
+  CurrencyConversionScreen({Key key}) : super(key: key);
+  List<DropdownMenuItem<String>> currencyList = [];
+
+  String exchangeCurrency1 = 'EUR';
+  double exchangeValue1;
+  TextEditingController _currency1Controller =
+      TextEditingController(text: '1.0');
+  String exchangeCurrency2 = 'USD';
+  double exchangeValue2;
+  String currency2Text = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final L = LocaleBase.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(L.conversion.get('currency')),
+      ),
+      body: Container(
+        child: BlocBuilder<CurrencyBloc, CurrencyState>(
+          builder: (context, state) {
+            if (state.isLoaded) {
+              if (currencyList.length == 0) {
+                currencyList = CurrencyData.exchangeRates.keys.map((e) {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 186),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              flex: 4,
+                              child: Text(L.currency.get(e.toLowerCase()))),
+                          Text('  |  '),
+                          Expanded(child: Text(e))
+                        ],
+                      ),
+                    ),
+                    //child: Text(e),
+                  );
+                }).toList();
+                print('DropDownData');
+              }
+              exchangeCurrency1 = state.inputCurrency;
+              exchangeCurrency2 = state.outputCurrency;
+              exchangeValue1 = CurrencyData.exchangeRates[exchangeCurrency1];
+              exchangeValue2 = CurrencyData.exchangeRates[exchangeCurrency2];
+
+              currency2Text = CurrencyData.convertTo(
+                      exchangeCurrency1, exchangeCurrency2, state.inputValue)
+                  .toString();
+
+              return Column(
+                children: [
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 4),
+                    child: Text(L.main.get('last_updated') +
+                        ': ${CurrencyData.lastUpdated}'),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 16)),
+                  DropdownButton<String>(
+                    value: exchangeCurrency1,
+                    icon: Icon(Icons.arrow_drop_down),
+                    items: currencyList,
+                    onChanged: (val) {
+                      BlocProvider.of<CurrencyBloc>(context)
+                          .add(CurrencyChangeIOEvent(inputCurrency: val));
+                    },
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                    constraints: BoxConstraints(
+                        minWidth: double.infinity,
+                        maxHeight: 40,
+                        minHeight: 30),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: TextField(
+                          controller: _currency1Controller,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          textAlign: TextAlign.center,
+                          //textAlignVertical: TextAlignVertical(y: -1),
+                          onChanged: (val) {
+                            BlocProvider.of<CurrencyBloc>(context).add(
+                                CurrencyChangeValueEvent(
+                                    inputValue: double.parse(val)));
+
+                            //setState(() => calculateValues(val));
+                          },
+                          decoration: InputDecoration(border: InputBorder.none),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.unfold_more, size: 32),
+                    onPressed: () {
+                      BlocProvider.of<CurrencyBloc>(context).add(
+                          CurrencyChangeIOEvent(
+                              inputCurrency: exchangeCurrency2,
+                              outputCurrency: exchangeCurrency1));
+                    },
+                  ),
+                  DropdownButton<String>(
+                    value: exchangeCurrency2,
+                    icon: Icon(Icons.arrow_drop_down),
+                    items: currencyList,
+                    onChanged: (val) {
+                      BlocProvider.of<CurrencyBloc>(context)
+                          .add(CurrencyChangeIOEvent(outputCurrency: val));
+                    },
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 0, left: 32, right: 32),
+                      constraints: BoxConstraints(
+                          minWidth: double.infinity,
+                          maxHeight: 40,
+                          minHeight: 30),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            currency2Text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      )),
+                ],
+              );
+            } else {
+              return Center(child: Text('loading'));
+            }
+          },
+        ),
       ),
     );
   }
