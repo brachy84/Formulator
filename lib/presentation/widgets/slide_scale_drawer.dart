@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class SlideScaleDrawer extends StatefulWidget {
   SlideScaleDrawer(
       {Key key,
-        @required this.child,
-        @required this.content,
-        this.sizeFactor,
-        this.translateFactor,
-        this.color})
+      @required this.child,
+      @required this.content,
+      this.sizeFactor,
+      this.translateFactor,
+      this.color})
       : super(key: key) {
     sizeFactor ??= 1 / 3;
     color ??= Colors.blue;
@@ -71,7 +71,7 @@ class SlideScaleDrawerState extends State<SlideScaleDrawer>
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     screenWidth = screenSize.width;
-    widget.translateFactor = screenWidth;
+    widget.translateFactor ??= screenWidth;
 
     return Material(
       child: Container(
@@ -86,7 +86,8 @@ class SlideScaleDrawerState extends State<SlideScaleDrawer>
           child: AnimatedBuilder(
               animation: animationController,
               builder: (context, _) {
-                double slide = widget.translateFactor * animationController.value;
+                double slide =
+                    widget.translateFactor * animationController.value;
                 double scale =
                     1 - (animationController.value * widget.sizeFactor);
                 return Stack(
@@ -95,7 +96,8 @@ class SlideScaleDrawerState extends State<SlideScaleDrawer>
                     Container(
                         constraints: BoxConstraints(
                             maxHeight: double.infinity,
-                            maxWidth: screenWidth * (1 - widget.sizeFactor)),
+                            maxWidth: screenWidth * (1 - widget.sizeFactor) -
+                                (screenWidth - widget.translateFactor)),
                         child: widget.content),
                     // normal view
                     GestureDetector(
@@ -120,7 +122,7 @@ class SlideScaleDrawerState extends State<SlideScaleDrawer>
     bool isDragOpenFromLeft =
         animationController.isDismissed && details.globalPosition.dx < 70;
     bool isDragCloseFromRight = animationController.isCompleted &&
-        details.globalPosition.dx > screenWidth * (1-widget.sizeFactor);
+        details.globalPosition.dx > screenWidth * (1 - widget.sizeFactor);
     _canBeDragged = isDragCloseFromRight || isDragOpenFromLeft;
   }
 
