@@ -14,7 +14,8 @@ class Units {
     ['mile', 'mile']: 0.000621371,
     ['foot', 'foot']: 3.28084,
     ['in', 'inch']: 39.3701,
-    ['yd', 'yard']: 1.093613298
+    ['yd', 'yard']: 1.093613298,
+    ['sm', 'seemile']: 0.0005399568
   });
 
   static final Unit area = Unit(defaultValue: 'm²', convertValues: {
@@ -65,8 +66,67 @@ class Units {
       (val) => (100 - val) * 2 / 3,
       (val) => (100 - val) * 1.5
     ],
-    ['°N', 'newton']: [(val) => val * 100 / 33, (val) => val * 0.33],
+    ['°N', 'd_newton']: [(val) => val * 100 / 33, (val) => val * 0.33],
   });
+
+  static final Unit speed = Unit(defaultValue: 'km/h', convertValues: {
+    ['km/h']: 1,
+    ['m/s']: 0.277777777778,
+    ['mile/h']: 0.621371,
+    ['foot/s']: 0.911344,
+    ['kn', 'knot']: 0.539957,
+  });
+
+  static final Unit acceleration = Unit(defaultValue: 'm/s²', convertValues: {
+    ['m/s²']: 1,
+    ['Gal']: 0.01,
+  });
+
+  static final Unit angle = Unit(defaultValue: '°', convertValues: {
+    ['°', 'degree']: 1,
+    ['gon', 'gon']: 0.9,
+    ['min', 'minute']: 60,
+    ['s', 'second']: 3600
+  });
+
+  static final Unit time = Unit(defaultValue: 'min', convertValues: {
+    ['ms', 'millisecond']: 3600000,
+    ['s', 'second']: 3600,
+    ['min', 'minute']: 60,
+    ['h', 'hour']: 1,
+    ['d', 'day']: 1 / 24,
+    ['7d', 'week']: 1 / 24 / 7,
+    ['y', 'year']: 1 / 365.2425
+  });
+  //pressure
+  static final Unit pressure = Unit(defaultValue: 'bar', convertValues: {
+    ['bar', 'bar']: 1,
+    ['Pa', 'pascal']: 0.00001,
+    ['N/mm²', 'n_mm2']: 10,
+    ['N/cm²', 'n_cm2']: 0.1,
+    ['N/m²', 'n_m2']: 0.00001,
+  });
+  // force
+  static final Unit force = Unit(defaultValue: 'N', convertValues: {
+    ['N', 'newton']: 1,
+    ['kN', 'kilonewton']: 0.001,
+  });
+
+  static final Unit data = Unit(defaultValue: 'mbit', convertValues: {
+    ['bit', 'bit']: 1000000,
+    ['kbit', 'kilobit']: 1000,
+    ['mbit', 'megabit']: 1,
+    ['gbit', 'gigabit']: 0.001,
+    ['tbit', 'terrabit']: 0.000001,
+    ['pbit', 'petabit']: 0.000000001,
+    ['b', 'byte']: 125000,
+    ['kb', 'kilobyte']: 125,
+    ['mb', 'megabyte']: 0.125,
+    ['gb', 'gigabyte']: 0.000125,
+    ['tb', 'terrabyte']: 0.000000125,
+    ['pb', 'petabyte']: 0.000000000125,
+  });
+  // currency
 }
 
 class Unit {
@@ -90,14 +150,14 @@ class Unit {
       _convertValues = convertValues;
       _convertValues.forEach((key, value) {
         if (key.length < 2) {
-          key[1] = key[0];
+          key.add(key[0]);
         }
       });
     } else {
       _convertCallbacks = convertCallbacks;
       _convertCallbacks.forEach((key, value) {
         if (key.length < 2) {
-          key[1] = key[0];
+          key.add(key[0]);
         }
       });
     }
