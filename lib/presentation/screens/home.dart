@@ -1,4 +1,7 @@
 import 'package:all_the_formulars/data/localization.dart';
+import 'package:all_the_formulars/presentation/screens/formula_screen.dart';
+import 'package:all_the_formulars/presentation/theme/colors.dart';
+import 'package:all_the_formulars/presentation/widgets/slide_scale_drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:all_the_formulars/presentation/screens/conversion_menu.dart';
@@ -9,10 +12,11 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // has tab bar with conversion menu and formula menu
   TabController tabController;
+  GlobalKey<SlideScaleDrawerState> drawerKey =
+      GlobalKey<SlideScaleDrawerState>();
 
   @override
   void initState() {
@@ -29,23 +33,41 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final L = LocaleBase.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        elevation: 0,
-        bottom: TabBar(
-          tabs: [
-            TabBarChild(L.main.get('unit_converter')),
-            TabBarChild(L.main.get('formulas'))
-          ],
-          controller: tabController,
-        ),
-        toolbarHeight: 86,
-      ),
-      body: Container(
-        child: TabBarView(
-          children: [ConversionMenu(), FormulaMenu()],
-          controller: tabController,
+    final screenSize = MediaQuery.of(context).size;
+    return SafeArea(
+      child: SlideScaleDrawer(
+        key: drawerKey,
+        color: MoreColors.darkBlueGrey[500],
+        sizeFactor: 0.05,
+        translateFactor: screenSize.width / 3 * 2,
+        content: FormulaMenu(),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                if (tabController.index == 1) {
+                  drawerKey.currentState.toggle();
+                }
+              },
+            ),
+            title: Text('Home'),
+            elevation: 0,
+            bottom: TabBar(
+              tabs: [
+                TabBarChild(L.main.get('unit_converter')),
+                TabBarChild(L.main.get('formulas'))
+              ],
+              controller: tabController,
+            ),
+            toolbarHeight: 86,
+          ),
+          body: Container(
+            child: TabBarView(
+              children: [ConversionMenu(), FormulaScreen()],
+              controller: tabController,
+            ),
+          ),
         ),
       ),
     );
