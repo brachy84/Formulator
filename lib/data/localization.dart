@@ -38,15 +38,26 @@ class LocaleBase {
   Localemain get main => _main;
   Localeconversion _conversion;
   Localeconversion get conversion => _conversion;
+  LocaleFormula _formula;
+  LocaleFormula get formula => _formula;
+  LocaleCurrency _currency;
+  LocaleCurrency get currency => _currency;
 
   void initAll() {
     _main = Localemain(Map<String, String>.from(_data['main']));
     _conversion =
         Localeconversion(Map<String, String>.from(_data['conversion']));
+    _formula = LocaleFormula(Map<String, String>.from(_data['formula']));
+    _currency = LocaleCurrency(Map<String, String>.from(_data['currency']));
   }
 
   String get(String key) {
-    return _main.getWithNull(key) ?? _conversion.getWithNull(key) ?? '404:$key';
+    if (key == '') return '';
+    return _main.getWithNull(key) ??
+        _conversion.getWithNull(key) ??
+        _formula.getWithNull(key) ??
+        _currency.getWithNull(key) ??
+        '404:$key';
   }
 }
 
@@ -55,6 +66,7 @@ class Localemain {
   Localemain(this._data);
 
   String get(String key) {
+    if (key == '') return '';
     return getWithNull(key) ?? '404:$key';
   }
 
@@ -71,6 +83,7 @@ class Localeconversion {
   Localeconversion(this._data);
 
   String get(String key) {
+    if (key == '') return '';
     return getWithNull(key) ?? '404:$key';
   }
 
@@ -82,6 +95,34 @@ class Localeconversion {
   String get areas => _data["areas"];
   String get volumes => _data["volumes"];
   String get meter => _data["meter"];
+}
+
+class LocaleFormula {
+  final Map<String, String> _data;
+  LocaleFormula(this._data);
+
+  String get(String key) {
+    if (key == '') return '';
+    return getWithNull(key) ?? '404:$key';
+  }
+
+  String getWithNull(String key) {
+    return _data[key];
+  }
+}
+
+class LocaleCurrency {
+  final Map<String, String> _data;
+  LocaleCurrency(this._data);
+
+  String get(String key) {
+    if (key == '') return '';
+    return getWithNull(key) ?? '404:$key';
+  }
+
+  String getWithNull(String key) {
+    return _data[key];
+  }
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<LocaleBase> {
