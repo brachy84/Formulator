@@ -4,7 +4,11 @@
     "save": "Use to save document",
     "unit_converter": "",
     "formulas": "",
-    "last_updated": ""
+    "last_updated": "",
+    "change_to": "",
+    "calculate": "",
+    "value": "",
+    "values_not_set": ""
   },
   "conversion": {
     "lengths": "",
@@ -103,7 +107,26 @@
     "square": "",
     "rectangle": "",
     "area": "",
-    "perimeter": ""
+    "perimeter": "",
+    "base_length": "",
+    "height": "",
+    "side_length": "",
+    "triangle": "",
+    "regular_polygon": "",
+    "circle": "",
+    "inner_and_outer_diameter": "",
+    "circle_cut_out": "",
+    "circle_cut_off": "",
+    "arc_length": "",
+    "width": "",
+    "cube": "",
+    "cuboid": "",
+    "cylinder": "",
+    "pyramid": "",
+    "ball": "",
+    "volume": "",
+    "surface": "",
+    "spherical_section": ""
   },
   "currency": {
     "eur": "Euro",

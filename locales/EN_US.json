@@ -4,7 +4,11 @@
     "save": "save",
     "unit_converter": "Unit Converter",
     "formulas": "Formulas",
-    "last_updated": "last updated"
+    "last_updated": "last updated",
+    "change_to": "change to",
+    "calculate": "calculate",
+    "value": "value",
+    "values_not_set": "The values required by the formula are not all set! Please give them a value first."
   },
   "conversion": {
     "lengths": "lengths",
@@ -103,7 +107,26 @@
     "square": "square",
     "rectangle": "rectangle",
     "area": "area",
-    "perimeter": "perimeter"
+    "perimeter": "perimeter",
+    "base_length": "base length",
+    "height": "height",
+    "side_length": "side length",
+    "triangle": "triangle",
+    "regular_polygon": "regular polygon",
+    "circle": "circle",
+    "inner_and_outer_diameter": "inner and outer diameter",
+    "circle_cut_out": "circle cut out",
+    "circle_cut_off": "circle cut off",
+    "arc_length": "arc length",
+    "width": "width",
+    "cube": "cube",
+    "cuboid": "cuboid",
+    "cylinder": "cylinder",
+    "pyramid": "pyramid",
+    "ball": "ball",
+    "volume": "volume",
+    "surface": "surface area",
+    "spherical_section": "spherical section"
   },
   "currency": {
     "eur": "Euro",

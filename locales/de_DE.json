@@ -4,7 +4,11 @@
     "save": "Speichern",
     "unit_converter": "Einheiten Umrechner",
     "formulas": "Formeln",
-    "last_updated": "Zuletzt aktualisiert"
+    "last_updated": "Zuletzt aktualisiert",
+    "change_to": "umstellen nach",
+    "calculate": "berechnen",
+    "value": "Wert",
+    "values_not_set": "Die Werte die für die Formel nötig sind, haben nicht alle einen Wert! Bitte gib zuerst ein Wert für jede Variable ein."
   },
   "conversion": {
     "lengths": "Längen",
@@ -103,7 +107,26 @@
     "square": "Quadrat",
     "rectangle": "Rectangle",
     "area": "Flächeninhalt",
-    "perimeter": "Umfang"
+    "perimeter": "Umfang",
+    "base_length": "Grundlänge",
+    "height": "Höhe",
+    "side_length": "Seitenlänge",
+    "triangle": "Dreieck",
+    "regular_polygon": "regelmäßiges Vieleck",
+    "circle": "Kreis",
+    "inner_and_outer_diameter": "Innerer und Äußerer Durchmesser",
+    "circle_cut_out": "Kreisausschnitt",
+    "circle_cut_off": "Kreisabschnitt",
+    "arc_length": "Bogenlänge",
+    "width": "Breite",
+    "cube": "Würfel",
+    "cuboid": "Quader",
+    "cylinder": "Zylinder",
+    "pyramid": "Pyramide",
+    "ball": "Kugel",
+    "volume": "Volumen",
+    "surface": "Oberfläche",
+    "spherical_section": "Kugelabschnitt"
   },
   "currency": {
     "eur": "Euro",
