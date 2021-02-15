@@ -3,7 +3,7 @@ description: Contains a lot of formulars
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,12 +30,13 @@ dependencies:
   catex: ^0.0.1+6
   cupertino_icons: ^0.1.3
   flutter_bloc: ^6.1.1
+  flutter_native_splash: ^0.3.0
   font_awesome_flutter: ^8.11.0
   http: ^0.12.2
   path_provider: ^1.6.24
-  provider: ^4.3.2
+  #provider: ^4.3.2
   shared_preferences: ^0.5.12+4
-  xml: ^4.5.1
+  #xml: ^4.5.1
 
 dev_dependencies:
   flutter_test:
@@ -49,10 +50,13 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/atf_icon512.png"
+  
+flutter_native_splash:
+  color: '#1d272b'
+  image: 'assets/icon/atf_icon512.png'
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
