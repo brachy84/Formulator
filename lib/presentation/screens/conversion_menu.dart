@@ -116,7 +116,7 @@ class ConversionMenu extends StatelessWidget {
     // maybe hero animation from Tile to conversion screen
     return Container(
         padding: EdgeInsets.all(8),
-        child: Column(
+        child: ListView(
           children: conversionTiles,
         ));
   }

@@ -1,9 +1,22 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Units {
   static List<Unit> _units = [];
   static List<Unit> get all => _units;
   static void _add(Unit unit) => _units.add(unit);
+
+  static Unit getFromShort(String short) {
+    if (short == '') return NONE;
+    return all.firstWhere((unit) {
+      return unit.keys
+              .firstWhere((def) => def[0] == short, orElse: () => [])
+              .length ==
+          2;
+    });
+  }
+
+  static final Unit NONE = Unit(defaultValue: '', convertValues: {});
 
   static final Unit lengths = Unit(defaultValue: 'm', convertValues: {
     ['mm', 'millimeter']: 1000,
@@ -203,4 +216,12 @@ class Unit {
   }
 
   bool hasUnit({String unit}) => _convertValues.keys.contains(unit);
+
+  List<DropdownMenuItem> getDropdownList() {
+    List<DropdownMenuItem> items = [];
+    items = keys.map((List<String> def) {
+      return DropdownMenuItem<String>(value: def[0], child: Text(def[0]));
+    }).toList();
+    return items;
+  }
 }

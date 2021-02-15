@@ -100,8 +100,10 @@ class UnitTextField extends StatelessWidget {
                       unit.convertTo(state.inputUnit, short, state.inputValue),
                       6);
                 }
-                TextEditingController _controller =
-                    TextEditingController(text: convertedValue.toString());
+                TextEditingController _controller = TextEditingController(
+                    text: convertedValue <= 9223372036854.775
+                        ? L.main.get('value_to_high')
+                        : convertedValue.toString());
                 return TextField(
                   controller: _controller,
                   onChanged: (val) {

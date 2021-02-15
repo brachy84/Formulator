@@ -1,8 +1,11 @@
 import 'dart:math';
 
-import 'package:all_the_formulars/old/constants.dart';
-
 class Utils {
+  static num min2(num a, num b) {
+    if (a < 0 || b < 0) return max(a, b);
+    return min(a, b);
+  }
+
   static double dp(double val, int places) {
     double mod = pow(10.0, places);
     return ((val * mod).round().toDouble() / mod);
@@ -41,11 +44,5 @@ class Utils {
       if (string == element) count++;
     }
     return count;
-  }
-}
-
-void logcat(Object obj) {
-  if (Const.DEBUG) {
-    print(obj);
   }
 }

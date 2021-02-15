@@ -54,11 +54,15 @@ class SlideScaleDrawerState extends State<SlideScaleDrawer>
     if (animationController.isCompleted) animationController.reverse();
   }
 
+  void initDrawer() {
+    animationController ??=
+        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+  }
+
   @override
   void initState() {
     super.initState();
-    animationController ??=
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    initDrawer();
   }
 
   @override

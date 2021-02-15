@@ -18,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GlobalKey<SlideScaleDrawerState> drawerKey =
       GlobalKey<SlideScaleDrawerState>();
 
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -42,16 +44,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         translateFactor: screenSize.width / 3 * 2,
         content: FormulaMenu(),
         child: Scaffold(
+          key: scaffoldKey,
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                if (tabController.index == 1) {
-                  drawerKey.currentState.toggle();
-                }
+            leading: AnimatedBuilder(
+              animation: tabController.animation,
+              builder: (context, child) {
+                double slide = (1 - tabController.animation.value) * -40;
+                return Transform.translate(
+                  offset: Offset(slide, 0),
+                  child: IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      drawerKey.currentState.toggle();
+                    },
+                  ),
+                );
               },
             ),
-            title: Text('Home'),
+            title: AnimatedBuilder(
+              animation: tabController.animation,
+              builder: (context, child) {
+                double slide = (1 - tabController.animation.value) * -40;
+                return Transform.translate(
+                    offset: Offset(slide, 0), child: Text('Home'));
+              },
+            ),
             elevation: 0,
             bottom: TabBar(
               tabs: [

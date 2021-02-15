@@ -4,7 +4,7 @@ import 'package:all_the_formulars/buisness_logic/currency_bloc.dart';
 import 'package:all_the_formulars/buisness_logic/formula_bloc.dart';
 import 'package:all_the_formulars/buisness_logic/theme_bloc.dart';
 import 'package:all_the_formulars/data/localization.dart';
-import 'package:all_the_formulars/old/main.dart' as OldMain;
+//import 'package:all_the_formulars/old/main.dart' as OldMain;
 import 'package:all_the_formulars/presentation/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
